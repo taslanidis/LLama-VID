@@ -1,0 +1,4 @@
+cd /scratch-shared/scur0405/data/LLaMA-VID-Eval
+mkdir -p ucf-crime
+cd ucf-crime
+wget "https://uc56ba48f9c811043f4128852063.dl.dropboxusercontent.com/cd/0/get/CSdslXcmt2bnyo_JpeZPp-dmlDfhc25Gn3YCovyvESg0072a2C_WH34vxZng1oz9Dr9klcypBDdL6F9oLD08yY3v3Tp0DtK2ed9GCQjZ-qFR4-7jnXIaid2z5Zrh9wOojKmHQ6gv1igUsaRDqI-H5mGQnaFdqjB7mJ74TnYkKSgSBppK-2cPLMEmLGfsjHCuwiw/file?_download_id=4356305379659735685322007799203344763823711437411069268913539172&_notify_domain=www.dropbox.com&dl=1"

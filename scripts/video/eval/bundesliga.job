@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=2
+#SBATCH --partition=gpu
+#SBATCH --job-name=bundesliga_inference
+#SBATCH --time=00:20:00
+#SBATCH --output=bundesliga_inference_%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+# Activate your environment
+source activate llamavid
+
+python scripts/extra_tool/extract_video_features_subtitles.py \
+    --video_file /data/LLaMA-VID-Eval/bundesliga \
+    --feat_dir /data/LLaMA-VID-Eval/bundesliga

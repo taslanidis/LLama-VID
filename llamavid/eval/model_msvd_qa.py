@@ -75,10 +75,11 @@ def run_inference(args):
 
     # Create the output directory if it doesn't exist
     if not os.path.exists(args.output_dir):
-        os.makedirs(args.output_dir)
+        os.makedirs(args.output_dir, exist_ok=True)
 
     video_formats = ['.mp4', '.avi', '.mov', '.mkv']
     if args.num_chunks > 1:
+        print(f"Chunks idx: {args.chunk_idx}")
         output_name = f"{args.num_chunks}_{args.chunk_idx}"
     else:
         output_name = args.output_name

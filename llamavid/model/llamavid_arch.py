@@ -252,6 +252,7 @@ class LLaMAVIDMetaForCausalLM(ABC):
             image_features = images
         else:
             image_features = self.get_model().get_vision_tower()(images)
+
         image_features = self.vlm_attention(image_features, 
                                             prompts=prompts, 
                                             image_counts=image_counts,
@@ -308,6 +309,7 @@ class LLaMAVIDMetaForCausalLM(ABC):
                 query_tokens = self.get_model().vlm_att_query.expand(bert_feat.shape[0], -1, -1)
                 query_atts = torch.cat([torch.ones(query_tokens.size()[:-1], dtype=torch.long).to(bert_feat.device), 
                                         attention_masks],dim=1)
+                
                 if 'pretrain' in self.config.bert_type:
                     mm_img_in = self.get_model().vlm_att_ln(bert_feat)
                 else:

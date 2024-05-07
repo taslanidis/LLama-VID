@@ -56,6 +56,7 @@ def eval_model(args):
             cur_prompt = '<image>' + '\n' + cur_prompt
         else:
             images = None
+            continue
 
         if args.single_pred_prompt:
             qs = qs + '\n' + "Answer with the option's letter from the given choices directly."

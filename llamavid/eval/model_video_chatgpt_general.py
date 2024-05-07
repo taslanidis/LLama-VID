@@ -91,6 +91,7 @@ def run_inference(args):
         # Load the video file
         for fmt in video_formats:  # Added this line
             temp_path = os.path.join(args.video_dir, f"{video_name}{fmt}")
+            print(f"Temp path : {temp_path}")
             if os.path.exists(temp_path):
                 video_path = temp_path
                 break

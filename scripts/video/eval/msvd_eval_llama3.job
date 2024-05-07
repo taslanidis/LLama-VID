@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=4
+#SBATCH --job-name=msvd-eval-llama3
+#SBATCH --time=00:59:00
+#SBATCH --output=msvd-eval-llama3-newest-%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+
+# Activate your environment
+source activate llama_3_instruct
+
+CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+CHUNKS=2
+
+python llamavid/eval/eval_msvd_qa_llama.py \
+    --pred_path ./work_dirs/eval_msvd/$CKPT \
+    --output_dir ./work_dirs/eval_msvd/$CKPT/results \
+    --output_json ./work_dirs/eval_msvd/$CKPT/results.json \
+    --num_chunks $CHUNKS \
+    --num_tasks 4 \
+
+

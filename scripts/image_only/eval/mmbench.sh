@@ -1,10 +1,10 @@
 #!/bin/bash
 
-CKPT="llama-vid/llama-vid-7b-full-336"
+CKPT="llama-vid-7b-full-336"
 SPLIT="mmbench_dev_20230712"
 
 CUDA_VISIBLE_DEVICES=0 python -m llamavid.eval.model_vqa_mmbench \
-    --model-path ./work_dirs/$CKPT \
+    --model-path ./work_dirs/llama-vid/$CKPT \
     --question-file ./data/LLaMA-VID-Eval/mmbench/$SPLIT.tsv \
     --answers-file ./data/LLaMA-VID-Eval/mmbench/answers/$SPLIT/$CKPT.jsonl \
     --single-pred-prompt \

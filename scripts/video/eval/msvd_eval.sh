@@ -1,14 +1,14 @@
 #!/bin/bash
 
-CUDA_VISIBLE_DEVICES='0,1,2,3,4,5,6,7'
+CUDA_VISIBLE_DEVICES='0,1,2,3'
 gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
 IFS=',' read -ra GPULIST <<< "$gpu_list"
 
 CHUNKS=${#GPULIST[@]}
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
-OPENAIKEY=""
-OPENAIBASE=""
+# OPENAIKEY=""
+# OPENAIBASE=""
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_msvd_qa.py \
@@ -24,11 +24,11 @@ done
 
 wait
 
-python llamavid/eval/eval_msvd_qa.py \
-    --pred_path ./work_dirs/eval_msvd/$CKPT \
-    --output_dir ./work_dirs/eval_msvd/$CKPT/results \
-    --output_json ./work_dirs/eval_msvd/$CKPT/results.json \
-    --num_chunks $CHUNKS \
-    --num_tasks 16 \
-    --api_key $OPENAIKEY \
-    --api_base $OPENAIBASE
+# python llamavid/eval/eval_msvd_qa.py \
+#     --pred_path ./work_dirs/eval_msvd/$CKPT \
+#     --output_dir ./work_dirs/eval_msvd/$CKPT/results \
+#     --output_json ./work_dirs/eval_msvd/$CKPT/results.json \
+#     --num_chunks $CHUNKS \
+#     --num_tasks 16 \
+#     --api_key $OPENAIKEY \
+#     --api_base $OPENAIBASE

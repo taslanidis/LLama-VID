@@ -76,6 +76,7 @@ class LlavaLlamaAttForCausalLM(LlamaForCausalLM, LLaMAVIDMetaForCausalLM):
                 images[0] = images[0].to(device=self.device)
             if input_ids.device != self.device:
                 input_ids = input_ids.to(device=self.device)
+
         input_ids, attention_mask, past_key_values, inputs_embeds, labels = self.prepare_inputs_labels_for_multimodal(input_ids, attention_mask, past_key_values, labels, images, prompts=prompts)
 
         torch.cuda.empty_cache()

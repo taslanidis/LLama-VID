@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CUDA_VISIBLE_DEVICES='0,1,2,3,4,5,6,7'
+CUDA_VISIBLE_DEVICES='0,1'
 gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
 IFS=',' read -ra GPULIST <<< "$gpu_list"
 
@@ -8,7 +8,7 @@ CHUNKS=${#GPULIST[@]}
 
 CKPT="llama-vid/llama-vid-7b-full-336"
 SPLIT="llava_gqa_testdev_balanced"
-GQADIR="./data/LLaMA-VID-Eval/gqa/data"
+GQADIR="./data/LLaMA-VID-Eval/gqa"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python -m llamavid.eval.model_vqa_loader \
@@ -37,4 +37,4 @@ done
 python scripts/convert_gqa_for_eval.py --src $output_file --dst $GQADIR/testdev_balanced_predictions.json
 
 cd $GQADIR
-python eval/eval.py --tier testdev_balanced
+python eval.py --tier testdev_balanced
