@@ -21,7 +21,7 @@ if __name__ == "__main__":
         question = {
             'question_id': index,
             'video_name': filename,
-            'question': 'What type of crime is commited in the video?',
+            'question': 'You will perform anomaly detection on a surveillance camera video. Classify the activity in the video by using ONLY ONE of the mentioned categories: Abuse, Arrest, Arson, Assault, Burglary, Explosion, Fighting, Robbery, Road Accident, Shooting, or Normal Video.',
             'answer': answer
         }
         questions.append(question)

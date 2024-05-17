@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --job-name=crime-activity-llama
+#SBATCH --time=00:59:00
+#SBATCH --output=crime-activity-llama-%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+source activate llama_3_instruct
+
+conda list
+
+CUDA_VISIBLE_DEVICES='0'
+gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
+IFS=',' read -ra GPULIST <<< "$gpu_list"
+
+CHUNKS=${#GPULIST[@]}
+
+CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+
+python llamavid/eval/eval_crime_qa_llama.py \
+    --pred_path ./work_dirs/eval_ucf_crime/$CKPT/pred.json \
+    --output_dir ./work_dirs/eval_ucf_crime/$CKPT/results \
+    --output_json ./work_dirs/eval_ucf_crime/$CKPT/results.json \
+    --num_chunks $CHUNKS \
+    --num_tasks 2 \
+
+

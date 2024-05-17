@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --job-name=crime-activity-preds
+#SBATCH --time=00:59:00
+#SBATCH --output=crime-activity-preds-%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+# Activate your environment
+source activate llamavid
+
+nvidia-smi
+
+CUDA_VISIBLE_DEVICES='0'
+gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
+IFS=',' read -ra GPULIST <<< "$gpu_list"
+
+CHUNKS=${#GPULIST[@]}
+
+CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+
+for IDX in $(seq 0 $((CHUNKS-1))); do
+    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_activitynet_qa.py \
+    --model-path ./work_dirs/$CKPT \
+    --video_dir ./data/LLaMA-VID-Eval/ucf-crime/videos \
+    --gt_file_question ./data/LLaMA-VID-Eval/ucf-crime/test_questions.json \
+    --gt_file_answers ./data/LLaMA-VID-Eval/ucf-crime/test_answers.json \
+    --output_dir ./work_dirs/eval_ucf_crime/$CKPT \
+    --output_name pred \
+    --num-chunks $CHUNKS \
+    --chunk-idx $IDX \
+    --conv-mode vicuna_v1 &
+
+done
+
+wait
+
+# source activate llama_3_instruct
+
+# conda list
+
+# python llamavid/eval/eval_crime_qa_llama.py \
+#     --pred_path ./work_dirs/eval_ucf_crime/$CKPT/pred.json \
+#     --output_dir ./work_dirs/eval_ucf_crime/$CKPT/results \
+#     --output_json ./work_dirs/eval_ucf_crime/$CKPT/results.json \
+#     --num_chunks $CHUNKS \
+#     --num_tasks 4 \
+
+
