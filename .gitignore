@@ -29,6 +29,7 @@ ckpts*
 
 .ipynb_checkpoints
 *.ipynb
+!*_v2.ipynb
 
 # DevContainer
 !.devcontainer/*
