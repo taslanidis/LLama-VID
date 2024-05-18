@@ -43,18 +43,20 @@ def parse_args():
     parser.add_argument("--num-chunks", type=int, default=1)
     parser.add_argument("--chunk-idx", type=int, default=0)
     parser.add_argument("--model-max-length", type=int, default=None)
+    parser.add_argument("--video_fps", type=int, default=1)
 
     return parser.parse_args()
 
 
-def load_video(video_path):
+def load_video(video_path: str, output_fps: int = 1):
     vr = VideoReader(video_path, ctx=cpu(0))
     total_frame_num = len(vr)
     fps = round(vr.get_avg_fps())
     print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
-    frame_idx = [i for i in range(0, len(vr), fps)]
+    frame_increment: int = fps // output_fps if fps >= output_fps else fps
+    frame_idx = [i for i in range(0, len(vr), frame_increment)]
     spare_frames = vr.get_batch(frame_idx).asnumpy()
-    print("Spare frames: ", len(spare_frames), len(frame_idx))
+    print(f"Output video frames: {len(spare_frames)}, fps: {(fps * output_fps) // fps}")
     return spare_frames
 
 
@@ -114,11 +116,11 @@ def run_inference(args):
 
         # Check if the video exists
         if os.path.exists(video_path):
-            video = load_video(video_path)
+            video = load_video(video_path, output_fps=args.video_fps)
 
             # UVA Addition
             # Surf Snellius GPUs have 40GB memory
-            # Can't fit over 1800 seconds of video (half an hour)
+            # Can't fit over 1800 frames of video (half an hour for fps=1)
             # skip all videos over a specific length
             if len(video) > 1800:
                 # go to next sample

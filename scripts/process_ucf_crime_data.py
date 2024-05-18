@@ -16,7 +16,7 @@ if __name__ == "__main__":
         if answer == "RoadAccidents":
             answer = "Road Accident"
         elif answer == "Normal Videos":
-            answer = "No crime commited in video"
+            answer = "Normal Video"
 
         question = {
             'question_id': index,
