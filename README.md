@@ -1,370 +1,138 @@
-# LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models
+# Seeking the limitations of "LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"
+### A. Tragadouras, E.G. Lionis, T. Aslanidis, V. Karlis, O. Neut
 
-<a href='https://llama-vid.github.io/'><img src='https://img.shields.io/badge/Project-Page-Green'></a>
-<a href='http://103.170.5.190:7864/'><img src='https://img.shields.io/badge/Project-Demo-violet'></a>
-<a href='https://arxiv.org/abs/2311.17043'><img src='https://img.shields.io/badge/Paper-Arxiv-red'></a>
-<a href='https://huggingface.co/YanweiLi'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-blue'></a>
-<a href='https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data'><img src='https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Data-green'></a>
+In this repository, we have code to reproduce and extend on the findings of the paper titled ["LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"](https://arxiv.org/abs/2311.17043).
+---
 
-
-
-LLaMA-VID empowers existing frameworks to support hour-long videos and pushes their upper limit with an extra context token. We build this repo based on LLaVA.
-
-## Release
-- [12/05] 🔥 We release the full training and evalution [model](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-long-video), [data](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data), and scripts to support movie chating! 
-- [11/29] 🔥 LLaMA-VID is comming! We release the [paper](https://arxiv.org/abs/2311.17043), [code](https://github.com/dvlab-research/LLaMA-VID), [data](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data), [models](https://huggingface.co/YanweiLi), and [demo](https://llama-vid.github.io/) for LLaMA-VID!
-
-## Contents
-- [Demo](#demo)
-- [Install](#install)
-- [Model](#model)
-- [Preparation](#preparation)
-- [Train](#train)
-- [Evaluation](#evaluation)
-- [Examples](#examples)
-- [Citation](#citation)
-- [Acknowledgement](#acknowledgement)
-- [License](#license)
-
-## Demo
-We provide some selected examples in this section. More examples can be found in our [project page](https://llama-vid.github.io/). Feel free to try our online [demo](https://llama-vid.github.io/)!
-
-<div align=center>
-<img width="100%" src="demos/demo.png"/>
-</div>
-
-## Install
-Please follow the instructions below to install the required packages.
-1. Clone this repository
-```bash
-git clone https://github.com/dvlab-research/LLaMA-VID.git
+## Stucture of Repository
+The structure of the repository has tried to be as modularized as possible and stay as original structure of the original authors to not cause any problems with dependencies. The repository must follow the following structure:
+```
+repo
+|-- readme.md  
+|
+|-- blogpost.md
+|
+|-- src
+|   |-- llamavid
+|   |-- scripts
+|   |-- work_dirs
+|   │   |-- llama-vid
+|   │   │   |-- llama-vid-13b-full-336
+|   │   │   |-- ...
+|   |   |-- llama-vid-7b-full-224-video-fps-1_grounding_finetuning
+|   |   |-- llama-vid-7b-full-224-video-fps-1-small-ucf-finetuning
+|   |   |-- ... (more folders with the output)
+|   |-- model_zoo
+|   |   |-- LLM
+|   |   │   |-- vicuna
+|   |   │   │   |-- 7B-V1.5
+|   |   │   │   |-- 13B-V1.5
+|   |   |-- LAVIS
+|   |   │   |-- eva_vit_g.pth
+|   |   │   |-- instruct_blip_vicuna7b_trimmed.pth
+|   |   │   |-- instruct_blip_vicuna13b_trimmed.pth
+|   |-- new_datasets_processing
+|   |   |-- animal_dataset
+|   |   |-- ucf_dataset
+|   |-- data  
+|   |   |   |-- LLaMA-VID-Eval
+|   |   |   |   |-- animal-kingdom
+|   |   |   |   |-- ucf-crime
+|   |   |   |   |-- gqa
+|   |   |   |   |-- ... (more folders)
+|   |   |   |-- LLaMA-VID-Pretrain
+|   |   |   |   |-- animal-kingdom
+|   |   |   |   |-- ucf-crime  
+|   |   |   |   |-- gqa
+|   |   |   |   |-- ... (more folders)
+|   |   |   |-- LLaMA-VID-Finetune
+|   |   |   |   |-- animal-kingdom
+|   |   |   |   |-- ucf-crime  
+|   |   |   |   |-- gqa
+|   |   |   |   |-- ... (more folders)
+|
+|-- demos
+|   |-- test_1.ipynb
+|   |-- experiment_2.ipynb
+|-- pyproject.toml
+|-- requirements_llama_three.txt
+|-- install_llama_environment.job
+|-- install_environment.job
 ```
 
-2. Install Package
-```bash
+
+More details for some files/folders are the following:
+- **readme.md**:      Description of the repo with relevant
+- **blogpost.md**:    Blogpost report
+- **src**:            contains the main project files
+    - **model_zoo**:    Folder with all imported weights for the LLM and vision encoder
+    - **llamavid**:     The code that has the model architecture and will be executed by the scripts
+    - **scripts**:      The executable code
+    - **work_dirs**:    The output of training, fine-tuning and evaluation. If a pretrain model is used, then this folder has to have the weights.
+    - **llama-vid**:    The weights of the llama-vid model from the original authors
+    - **llama-vid-7b-full-224-video-fps-1_grounding_finetuning**:
+                        The weights for the finetuning with the animal grounding dataset
+    - **llama-vid-7b-full-224-video-fps-1-small-ucf-finetuning**:
+                        The weights for the finetuning with the small-ucf dataset
+    - **new_datasets_processing**:
+                        The code for processing the new dataset
+    - **data**:         The folder with all data
+        - **LLaMA-VID-Eval**:       The data for evaluation purposes
+        - **LLaMA-VID-Pretrain**:   The data for pre-train purposes
+        - **LLaMA-VID-Finetune**:   The data for finetuning
+- **requirements_llama_three.txt**:
+- **install_llama_environment.job**: Executable to install the conda enviroment in a server
+- **install_environment.job**: Executable to install the conda enviroment in a server
+
+
+## Download Data
+The data that has been used in this project, can be split into reproducible data and the extension data. 
+
+### Original benchmarks
+The reproducible data is the benchmarks that the authors used and can be found in the [original repository](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#dataset). In order to download this dataset, someone has to follow the steps that the original authors describe for the images and short video evaluations.
+
+### Extended data
+The extended data are data from two different datasets. The one dataset is [animal kingdom dataset](https://sutdcv.github.io/Animal-Kingdom/) which we took the Video Grounding dataset, where we used it for fine-tuning and inference purposes. This data contains 50 hours of annotated videos to localize relevant animal behavior segments in long videos. In order to download them you need to request access through the [form](https://forms.office.com/pages/responsepage.aspx?id=drd2NJDpck-5UGJImDFiPVRYpnTEMixKqPJ1FxwK6VZUQkNTSkRISTNORUI2TDBWMUpZTlQ5WUlaSyQlQCN0PWcu) that they have in their page and get the sharepoint link. For a similar reason, the second dataset is [UCF-Crime dataset](https://paperswithcode.com/dataset/ucf-crime) and it consists of footage from 1900 long and untrimmed real-world surveillance videos, with 13 activities. In order to download this benchmark you can execute `scripts/download_ucf_crime.sh` script or manually download it from the dropbox url that they provide on their page.
+
+## Download Pre-trained Weights
+The step to download the pre-trained weights are split into to 2 parts. The weights that are needed for the model to use also in the training and inferance and are a must. There also the weights have passed though finetuning and are not neceassary if you are planning to retrain from the start the model.
+
+### Necessary pre-trained weights
+There is a [section](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#pretrained-weights) from the original authors to describe how to download the necessary weights. You must put them under model_zoo as defined in the structure. We used the [vicuna-7b-v1.5](https://huggingface.co/lmsys/vicuna-7b-v1.5) data out of the vicuna and have to be placed under `src/model_zoo/LLM/vicuna`. Also we downloaded the [EVA-ViT-G](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/eva_vit_g.pth), [QFormer-7b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth), [QFormer-13b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna13b_trimmed.pth) under `src/model_zoo/LAVIS`.
+
+### Pretrained finetuned original models
+The offered trained model wieghts can be found under the [table](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#model) of the original authors repository. You can choose one of those model and download them undert the `src/work_dirs`. If `work_dirs` folder is not created then you have to create it. 
+
+### Pretrained finetuned extention models
+The weights of the finetuned extention models can be found in the [LINK](NO LINK) and have to download in the `src/work_dirs`.
+
+## Conda Environments
+In this project, we had to create two different conda environments. Those are ***llamavid*** and ***llama_3_instruct***. This necessity initially arose to reproduce the performance of LLaMA_VID in the zero-shot video QA (Question Answering) benchmarks MSVD-QA and MSRVTT-QA. The authors utilize 'gpt-3.5-turbo' capabilities in text generation to evaluate the predictions made by the LLaMA-VID model in these Visual Question-answering tasks. Given an annotated pair of a question and a single-word answer related to the video, we need to evaluate if the prediction made by the proposed model agrees with the annotated single-word answer used as a label. Since 'gpt-3.5-turbo' is a closed model and we did not have access to an API key, we substituted it with[Meta-Llama-3-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct), one of the newest open-source LLMs released by Meta that has text-generation capabilities. The caveat is that the latter LLM depends on a newer transformer version that is not compatible with the transformer version used in [LLAVA](https://arxiv.org/pdf/2304.08485), a backbone that LLaMA-VID builds upon, which justifies our decision to use two different environments. So whenever we need to evaluate the correctness of the LLaMA-VID model predictions in QA tasks, we use the *llama_3_instruct environment.
+
+Both environments have a job script for building the environments in a cluster. To install them localy, one has to follow the following commands:
+
+### llamavid installation
+```
 conda create -n llamavid python=3.10 -y
-conda activate llamavid
-cd LLaMA-VID
-pip install --upgrade pip  # enable PEP 660 support
+source activate llamavid
+
+pip install --upgrade pip
 pip install -e .
-```
 
-3. Install additional packages for training cases
-```bash
 pip install ninja
-pip install flash-attn --no-build-isolation
+pip install flash-attn==2.1.2.post3 --no-build-isolation
+```
+### llama_3_instruction installation
+```
+pip install --upgrade pip
+pip install -r requirements_llama_three.txt
+pip install openpyxl
+pip install transformers==4.40.0
+conda install -c conda-forge code-server
 ```
 
-## Model
-LLaMA-VID simply contains three parts: encoder and decoder are adopted to produce visual embedding and text-guided features, respectively; 
-context token and content token are transformed with the tailored token generation strategy; 
-instruction tuning is designed to unleash the potential of LLMs for image and video.
+## How to reproduce the author's findings
+The authors have used numerous benchmarks to have their findings. Precise steps have been given in the [evaluation](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#evaluation) part of their repository. One has to execute the bash script job from `scripts/{image_only/video}/eval/{benchmark}.sh` by selecting either image_only or video which the benchmark is located and replace the name of the benchmark in the {benchmark} location.
 
-<div align=center>
-<img width="100%" src="images/overview.png"/>
-</div>
-
-We provide all our fully finetuned models on Stage 1 and 2 data (Long Video + Stage 3) for LLaMA-VID:
-
-| Type | Image Size | Max Token | Base LLM | Vision Encoder | Finetuning Data | Finetuning schedule | Download |
-|----------|----------|----------|----------|----------------|---------------|--------------------|------------------|
-Image only | 224 | 4K | Vicuna-7B-v1.5 | EVA-G | LLaVA1.5-Instruct | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224) |
-Image only | 336 | 4K | Vicuna-7B-v1.5 | EVA-G | LLaVA1.5-Instruct | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) |
-Image only | 336 | 4K | Vicuna-13B-v1.5 | EVA-G | LLaVA1.5-Instruct | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-full-336) |
-Short video | 224 | 4K | Vicuna-7B-v1.5 | EVA-G | LLaVA1.5-VideoChatGPT-Instruct | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1) |
-Short video | 224 | 4K | Vicuna-13B-v1.5 | EVA-G | LLaVA1.5-VideoChatGPT-Instruct | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-full-224-video-fps-1) |
-Long video | 224 | 64K | Vicuna-7B-v1.5 | EVA-G | LLaVA1.5-VideoChatGPT-Instruct + LongVideoQA | full_ft-1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-long-video) |
-
-Here are the pretrained weights (text decoder + context attention + projector) on Stage 1 data only:
-| Type | Image Size | Max Token | Base LLM | Vision Encoder | Pretrain Data | Pretraining schedule | Download |
-|----------|----------|----------|----------|----------------|---------------|----------------------|------------------|
-Image only | 224 | 4K | Vicuna-7B-v1.5 | EVA-G | LCS-558K | 1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-pretrain-224) |
-Image only | 336 | 4K | Vicuna-7B-v1.5 | EVA-G | LCS-558K | 1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-pretrain-336) |
-Image only | 336 | 4K | Vicuna-13B-v1.5 | EVA-G | LCS-558K | 1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-pretrain-336) |
-Short video | 224 | 4K | Vicuna-7B-v1.5 | EVA-G | LCS-558K-WebVid-232K | 1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-pretrain-224-video-fps-1) |
-Short video | 224 | 4K | Vicuna-13B-v1.5 | EVA-G | LCS-558K-WebVid-232K | 1e | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-pretrain-224-video-fps-1) |
-
-## Preparation
-### Dataset
-We provide the processed image-based data for LLaMA-VID training. We organize the data in the format of LLaVA, please organize the training image-based data following [this](https://github.com/haotian-liu/LLaVA/blob/main/docs/Data.md) and evaluation image-based data following [this](https://github.com/haotian-liu/LLaVA/blob/main/docs/Evaluation.md).
-Please put the pretrained data, finetuned data, and eval data in  `LLaMA-VID-Pretrain`, `LLaMA-VID-Finetune`, and `LLaMA-VID-Eval` subset following [Structure](#structure).
-
-For video-based dataset, please download the 2.5M subset from [WebVid](https://maxbain.com/webvid-dataset/) and ActivityNet dataset from [official website](http://activity-net.org/download.html) or [video-chatgpt](https://github.com/mbzuai-oryx/Video-ChatGPT/blob/main/docs/train_video_chatgpt.md).
-If you want to perform evaluation, please also download corresponding files from [here](https://github.com/mbzuai-oryx/Video-ChatGPT/blob/main/quantitative_evaluation/README.md). You can download MSVD-QA from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155186668_link_cuhk_edu_hk/EUNEXqg8pctPq3WZPHb4Fd8BYIxHO5qPCnU6aWsrV1O4JQ?e=guynwu) and MSRVTT-QA from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155186668_link_cuhk_edu_hk/EcEXh1HfTXhLrRnuwHbl15IBJeRop-d50Q90njHmhvLwtA?e=SE24eG).
-
-As for long video tuning, please download the long video data from [MovieNet](https://movienet.github.io/), shot detection results from [here](https://mycuhk-my.sharepoint.com/:u:/g/personal/1155186668_link_cuhk_edu_hk/EYbaGk86_WNFm9YP45WVQ_oB0GGkusDNBRwQQ19vBy4z2A?e=cKbiHJ) and our construced long video QA pairs from [here](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data). Place shot detection results under `LLaMA-VID-Finetune/movienet/files` before preprocessing.
-
-For meta info, please download the following files and organize them as in [Structure](#structure).
-
-| Data file name | Size |
-| --- | ---: |
-| [blip_laion_cc_sbu_558k.json](https://huggingface.co/datasets/liuhaotian/LLaVA-Pretrain/blob/main/blip_laion_cc_sbu_558k.json) | 181M |
-| [llava_v1_5_mix665k.json](https://huggingface.co/datasets/liuhaotian/LLaVA-Instruct-150K/blob/main/llava_v1_5_mix665k.json) | 1.03G |
-| [llava_558k_with_webvid.json](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data) | 254 MB |
-| [llava_v1_5_mix665k_with_video_chatgpt.json](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data) | 860 MB |
-| [llava_v1_5_mix665k_with_video_chatgpt_maxtime_5min.json](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data) | 860 MB |
-| [long_videoqa.json](https://huggingface.co/datasets/YanweiLi/LLaMA-VID-Data) | 260MB |
-
-### Pretrained Weights
-We recommend users to download the pretrained weights from the following link [Vicuna-7b-v1.5](https://huggingface.co/lmsys/vicuna-7b-v1.5), [Vicuna-13b-v1.5](https://huggingface.co/lmsys/vicuna-13b-v1.5), [EVA-ViT-G](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/eva_vit_g.pth), [QFormer-7b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth), [QFormer-13b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna13b_trimmed.pth) and put them in `model_zoo` following [Structure](#structure).
-
-
-### Structure
-
-The folder structure should be organized as follows before training.
-
-```
-LLaMA-VID
-├── llamavid
-├── scripts
-├── work_dirs
-│   ├── llama-vid
-│   │   ├── llama-vid-13b-full-336
-│   │   ├── ...
-├── model_zoo
-│   ├── LLM
-│   │   ├── vicuna
-│   │   │   ├── 7B-V1.5
-│   │   │   ├── 13B-V1.5
-│   ├── LAVIS
-│   │   ├── eva_vit_g.pth
-│   │   ├── instruct_blip_vicuna7b_trimmed.pth
-│   │   ├── instruct_blip_vicuna13b_trimmed.pth
-├── data
-│   ├── LLaMA-VID-Pretrain
-│   │   ├── blip_laion_cc_sbu_558k.json
-│   │   ├── llava_558k_with_webvid.json
-│   │   ├── images
-│   │   ├── videos
-│   ├── LLaMA-VID-Finetune
-│   │   ├── llava_v1_5_mix665k.json
-│   │   ├── llava_v1_5_mix665k_maxround_6_total_921k.json
-│   │   ├── llava_v1_5_mix665k_maxround_12_total_714k.json
-│   │   ├── llava_v1_5_mix665k_with_video_chatgpt.json
-│   │   ├── llava_v1_5_mix665k_with_video_chatgpt_maxtime_5min.json
-│   │   ├── long_videoqa.json
-│   │   ├── movienet
-│   │   ├── activitynet
-│   │   ├── coco
-│   │   ├── gqa
-│   │   ├── ocr_vqa
-│   │   ├── textvqa
-│   │   ├── vg
-│   ├── LLaMA-VID-Eval
-│   │   ├── gqa
-│   │   ├── ...
-```
-
-## Train
-
-LLaMA-VID training consists of three stages: (1) feature alignment stage: bridge the vision and language tokens; (2) instruction tuning stage: teach the model to follow multimodal instructions; (3) long video tuning stage: extend the position embedding and teach the model to follow hour-long video instructions.
-
-LLaMA-VID is trained on 8 A100 GPUs with 80GB memory. To train on fewer GPUs, you can reduce the `per_device_train_batch_size` and increase the `gradient_accumulation_steps` accordingly. Always keep the global batch size the same: `per_device_train_batch_size` x `gradient_accumulation_steps` x `num_gpus`.
-
-Please make sure you download and organize the data following [Preparation](#preparation) before training.
-
-### Image Only
-
-If you only want to train and finetune LLaMA-VID on image-based data, please run the following command for Vicuna-7B with image size 336:
-
-```bash
-bash scripts/image_only/train/stage_1_2_full_v7b_336.sh
-```
-or for Vicuna-13B with image size 336:
-```bash
-bash scripts/image_only/train/stage_1_2_full_v13b_336.sh
-```
-You can also try that with a smaller image size 224 and less visual tokens:
-```bash
-bash scripts/image_only/train/stage_1_2_full_v7b_224_grid_4.sh
-```
-Please find more training scripts in `scripts/image_only/train`.
-
-### Short Video
-If you are interested in training and finetuning LLaMA-VID on short video-based data, please run the following command for Vicuna-7B with image size 224:
-```bash
-bash scripts/video/train/stage_1_2_full_v7b_224_fps_1.sh
-```
-or for Vicuna-13B with image size 224:
-```bash
-bash scripts/video/train/stage_1_2_full_v13b_224_fps_1.sh
-```
-Please find more training scripts in `scripts/video/train`.
-
-### Long Video
-We provide dataset and scripts for long video-based training. Please download the long video-based data following [Preparation](#preparation) and organize them as in [Structure](#structure).
-In the training stage, we first extract all the frames from the long video and save the visual features local for efficient training. 
-```bash
-python scripts/extra_tool/extract_movienet_features.py \
-    --video_dir <path to movienet video> \
-    --files_dir <path to movienet files> \ # files in downladed MovieNet.tar.gz
-    --feat_dir <path to output features>
-```
-
-And run the following command for Vicuna-7B with image size 224:
-```bash
-bash scripts/video/train/stage_3_full_v7b_224_longvid.sh
-```
-
-## Evaluation
-We perform evaluation on both image-based and video-based benchmarks. Please download the evaluation data following [Preparation](#preparation) and organize them as in [Structure](#structure).
-
-### Image Only
-| LLM | Res. | Model | GQA | MMB | MME | POPE | SEED | SQA-Image | VizWiz | VQA v2 |
-|----------|----------|-----------|---|---|---|---|---|---|---|---|
-Vicuna-7B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224) | 63.0 | 65.3 | 1405.6 | 86.6 | 59.7 | 67.7 | 52.5 | 78.3 |
-Vicuna-7B | 336 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) | 64.3 | 65.1 | 1521.4 | 86.0 | 59.9 | 68.3 | 54.2 | 79.3 |
-Vicuna-13B | 336 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-full-336) | 65.0 | 66.6 | 1542.3 | 86.0 | 62.3 | 70.0 | 54.3 | 80.0 |
-
-
-
-If you want to evaluate the model on image-based benchmarks, please use the scripts in `scripts/image_only/eval`. 
-For example, run the following command for GQA evaluation:
-```bash
-bash scripts/image_only/eval/gqa.sh
-```
-Please find more evaluation scripts in `scripts/image_only/eval`.
-
-### Video
-| LLM | Res. | Model | MSVD-QA | MSRVTT-QA | ActivityNet-QA | Correctness | Detail | Context | Temporal | Consistency |
-|----------|----------|-----------|---|---|---|---|---|---|---|---|
-Vicuna-7B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1) | 69.7 | 57.7 | 47.4 | 2.96 | 3.00 | 3.53 | 2.46 | 2.51 | 
-Vicuna-13B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-13b-full-224-video-fps-1) | 70.0 | 58.9 | 47.5 | 3.07 | 3.05 | 3.60 | 2.58 | 2.63 |
-
-If you want to evaluate the model on video-based benchmarks, please use the scripts in `scripts/video/eval`.
-For example, run the following command for MSVD-QA evaluation:
-```bash
-bash scripts/video/eval/msvd_eval.sh
-```
-Please find more evaluation scripts in `scripts/video/eval`.
-
-### CLI Inference
-Chat with images and videos using LLaMA-VID without the need of Gradio interface. It also supports multiple GPUs, 4-bit and 8-bit quantized inference. With 4-bit quantization.
-Please try this for image or video inference:
-
-```bash
-python -m llamavid.serve.cli \
-    --model-path work_dirs/llama-vid/llama-vid-7b-full-336 \
-    --image-file <path to your image>
-```
-
-or try this for video inference:
-```bash
-python -m llamavid.serve.cli \
-    --model-path work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
-    --image-file <path to your video> \
-    --temperature 0.5
-```
-
-You can also try 4bit or 8bit for efficient inference 
-```bash
-python -m llamavid.serve.cli \
-    --model-path work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
-    --image-file <path to your video>
-    --temperature 0.5 \
-    --load-4bit
-```
-
-### Long Video Inference
-For long video, if you want to inference on videos in movienet, please first process the video data and subtitles like this:
-```bash
-python scripts/extra_tool/extract_movienet_features.py \
-    --video_dir <path to movienet video> \
-    --files_dir <path to movienet files> \ # files in downladed MovieNet.tar.gz
-    --feat_dir <path to output features>
-```
-
-If you want to inference with your customized video, please first process the video data and subtitles like this:
-```bash
-python scripts/extra_tool/extract_video_features_subtitles.py \
-    --video_file <path to customized video> \
-    --feat_dir <path to output features>
-```
-    
-Then, please try this for long video inference:
-```bash
-python llamavid/serve/run_llamavid_movie.py \
-    --model-path work_dirs/llama-vid/llama-vid-7b-full-224-long-video \
-    --video-file <path to your processed video file> \
-    --load-4bit
-```
-
-### Gradio Web UI
-
-Here, we adopt the Gradio UI similar to that in LLaVA to provide a user-friendly interface for LLaMA-VID.
-To launch a Gradio demo locally, please run the following commands one by one. If you plan to launch multiple model workers to compare between different checkpoints, you only need to launch the controller and the web server *ONCE*.
-
-#### Launch a controller
-```Shell
-python -m llamavid.serve.controller --host 0.0.0.0 --port 10000
-```
-
-#### Launch a gradio web server.
-```Shell
-python -m llamavid.serve.gradio_web_server --controller http://localhost:10000 --model-list-mode reload
-```
-You just launched the Gradio web interface. Now, you can open the web interface with the URL printed on the screen. You may notice that there is no model in the model list. Do not worry, as we have not launched any model worker yet. It will be automatically updated when you launch a model worker.
-
-#### Launch a model worker
-This is the actual *worker* that performs the inference on the GPU.  Each worker is responsible for a single model specified in `--model-path`.
-
-```Shell
-python -m llamavid.serve.model_worker --host 0.0.0.0 --controller http://localhost:10000 --port 40000 --worker http://localhost:40000 --model-path work_dirs/llama-vid/llama-vid-vicuna-7b-short
-```
-Wait until the process finishes loading the model and you see "Uvicorn running on ...".  Now, refresh your Gradio web UI, and you will see the model you just launched in the model list.
-
-You can launch as many workers as you want, and compare between different models in the same Gradio interface. For example, short video model here. Please keep the `--controller` the same, and modify the `--port` and `--worker` to a different port number for each worker.
-```Shell
-python -m llamavid.serve.model_worker_short --host 0.0.0.0 --controller http://localhost:10000 --port <different from 40000, say 40001> --worker http://localhost:<change accordingly, i.e. 40001> --model-path work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1
-```
-
-If you are using an Apple device with an M1 or M2 chip, you can specify the mps device by using the `--device` flag: `--device mps`.
-
-#### Launch a model worker (Multiple GPUs, when GPU VRAM <= 24GB)
-
-If the VRAM of your GPU is less than 24GB (e.g., RTX 3090, RTX 4090, etc.), you may try running it with multiple GPUs. Our latest code base will automatically try to use multiple GPUs if you have more than one GPU. You can specify which GPUs to use with `CUDA_VISIBLE_DEVICES`. Below is an example of running with the first two GPUs.
-
-```Shell
-CUDA_VISIBLE_DEVICES=0,1 python -m llamavid.serve.model_worker --host 0.0.0.0 --controller http://localhost:10000 --port 40000 --worker http://localhost:40000 --model-path work_dirs/llama-vid/llama-vid-7b-full-224-long-video
-```
-
-#### Launch a model worker (4-bit, 8-bit inference, quantized)
-
-You can launch the model worker with quantized bits (4-bit, 8-bit), which allows you to run the inference with reduced GPU memory footprint. Note that inference with quantized bits may not be as accurate as the full-precision model. Simply append `--load-4bit` or `--load-8bit` to the **model worker** command that you are executing. Below is an example of running with 4-bit quantization.
-
-```Shell
-python -m llamavid.serve.model_worker --host 0.0.0.0 --controller http://localhost:10000 --port 40000 --worker http://localhost:40000 --model-path work_dirs/llama-vid/llama-vid-7b-full-224-long-video --load-4bit
-```
-
-## Examples
-We provide some examples in this section. More examples can be found in our [project page](https://llama-vid.github.io/).
-
-<div align=center>
-<img width="100%" src="demos/demo_movie.png"/>
-</div>
-
-## Citation
-If you find this repo useful for your research, please consider citing the paper
-```
-@article{li2023llamavid,
-  title={LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models},
-  author={Li, Yanwei and Wang, Chengyao and Jia, Jiaya},
-  journal={arXiv preprint arXiv:2311.17043},
-  year={2023}
-}
-```
-
-## Acknowledgement
-We would like to thank the following repos for their great work:
-
-- This work is built upon the [LLaVA](https://github.com/haotian-liu/LLaVA).
-- This work utilizes LLMs from [Vicuna](https://github.com/lm-sys/FastChat).
-- This work utilizes pretrained weights from [InstructBLIP](https://github.com/salesforce/LAVIS).
-- We perform video-based evaluation from [Video-ChatGPT](https://github.com/mbzuai-oryx/Video-ChatGPT).
-
-## License
-[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-yellow.svg)](https://github.com/dvlab-research/LLaMA-VID/blob/main/LICENSE)
-[![Data License](https://img.shields.io/badge/Data%20License-CC%20By%20NC%204.0-orange.svg)](https://github.com/dvlab-research/LLaMA-VID/blob/main/DATA_LICENSE)
-[![Weight License](https://img.shields.io/badge/Weight%20License-CC%20By%20NC%204.0-red)](https://github.com/dvlab-research/LLaMA-VID/blob/main/WEIGHT_LICENSE)
-
-The data and checkpoint is intended and licensed for research use only. They are also restricted to uses that follow the license agreement of LLaVA, LLaMA, Vicuna and GPT-4. The dataset is CC BY NC 4.0 (allowing only non-commercial use) and models trained using the dataset should not be used outside of research purposes.
+## How to reproduce the extension
+THIS NEEDS INPUT!!!

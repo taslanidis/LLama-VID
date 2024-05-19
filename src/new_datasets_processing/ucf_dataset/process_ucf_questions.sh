@@ -9,7 +9,7 @@ module load CUDA/11.7.0
 source activate llamavid
 
 # create questions.json
-python process_ucf_crime_data.py
+python ./process_ucf_crime_data.py
 
 cp /scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/questions.json /scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/answers.json
 cp /scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/test_questions.json /scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/test_answers.json
