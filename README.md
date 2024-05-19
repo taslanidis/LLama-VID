@@ -134,5 +134,5 @@ conda install -c conda-forge code-server
 ## How to reproduce the author's findings
 The authors have used numerous benchmarks to have their findings. Precise steps have been given in the [evaluation](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#evaluation) part of their repository. One has to execute the bash script job from `scripts/{image_only/video}/eval/{benchmark}.sh` by selecting either image_only or video which the benchmark is located and replace the name of the benchmark in the {benchmark} location.
 
-## How to reproduce the extension
-THIS NEEDS INPUT!!!
+<!-- ## How to reproduce the extension
+THIS NEEDS INPUT!!! -->

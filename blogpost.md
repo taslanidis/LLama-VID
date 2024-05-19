@@ -121,7 +121,7 @@ In order to be able to use this dataset on our task, we had to create specific p
 However, it can be quite vague what is an anomalous activity for our task, so we finally finetuned LLaMa-VID on the trainset of the UCF dataset. Then by performing inference again, we show how better the models become for such a task if they have been specifically trained to identify such specific anomalous activities.
 
 ### Animal Dataset:
-Understanding animals’ behaviors is significant for a wide range of applications. Animal dataset is a large and diverse dataset, created by Xun et al. [2022]  that provides multiple annotated tasks to enable a more thorough understanding of natural animal behaviors. It contains a diverse range of animals with 850 species and includes wild animal footage from different times of the day in an extensive range of environments. The provided videos come with output labels of different types such as the different species captured in each video along with their respective animal classes and the different actions captured. This task necessitates capturing detailed visual features unique to each species. 
+Understanding animals’ behaviors is significant for a wide range of applications. Animal dataset is a large and diverse dataset, created by [Xun et al. 2022]  that provides multiple annotated tasks to enable a more thorough understanding of natural animal behaviors. It contains a diverse range of animals with 850 species and includes wild animal footage from different times of the day in an extensive range of environments. The provided videos come with output labels of different types such as the different species captured in each video along with their respective animal classes and the different actions captured. This task necessitates capturing detailed visual features unique to each species. 
 
 As this dataset contains several subtasks we have focused on video data from the provided ‘action detection’ task and also videos provided for the ‘grounding’ task. In both cases, we manipulated output classes to perform inference and perform evaluation according to the LLaMA-VID pipeline. On top of that, we further manipulated the provided data so that we were also eligible to finetune our models by providing different types of conversational interactions. In particular, in both cases, we had to convert existing data to specific prompts with MCQ and answers being the species of animals along with their classes and the performed actions.
 
@@ -129,14 +129,15 @@ As this dataset contains several subtasks we have focused on video data from the
 
 This section is intentionally left blank, as we will fill them out when we have the results on our extensions. That way, it will be easier to introduce them and motivate them.
 
-## Results:
-Will be filled when we have them available.
+## Results on Extensions:
+Will be filled once we have them in our disposal.
 
 ## Conclusion:
+Further experimentation and ablation studies are needed to ensure we draw a clear conclusion. For the moment, consider the limitations and strengths we have pointed out in the respective section.
 
 ## Author's contributions:
 
-- Antonis: Initial setup of the codebase, built the environment in the cluster, executed the inferences for image and video benchmarks. Created scripts for evaluating the zero-shot performance of LLaMA-VId on Crime and animal-kingdom dataset respectively. Further fine-tuning LLaMA-VID on these two new datasets.
+- Antonis: Initial setup of the codebase, built the environment in the cluster, executed the inferences for image and video benchmarks. Created scripts for evaluating the zero-shot performance of LLaMA-VId on Crime and animal-kingdom dataset respectively. Further fine-tuning LLaMA-VID on the latter two new datasets. Substituted **gpt-3.5-turbo** with **Llama-3-8B-Instruct** to evaluate of LLaMA-VID generated prediction for all QA tasks.
 - Vasilis: Literature review to spot weaknesses of LLaMA-VID, ablation study to explore details in videos, investigation and selection of animal-kingdom dataset. Pre-processing of the dataset, data-pipeline set-up and implementation of the respective inference and fine-tuning tasks.
 - Fanis: Identification of anomaly detection dataset. Ablation study to explore missing detail information. Data pipeline setup for a new dataset. Finetuning on a new dataset. Reviewing literature and related work for potential short-comings of the paper, and VLMs in general.
 - Emmanouil: Helping in the initial setup of the codebase and the execution of inferences for images and video benchmarks. Understanding how the fine-tuning is executable and how to set it up. Helping preprocess the dataset and setup the fine-tuning execution. 
