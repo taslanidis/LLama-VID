@@ -7,7 +7,7 @@
 #SBATCH --partition=gpu
 #SBATCH --job-name=msrvtt-inference
 #SBATCH --time=06:59:00
-#SBATCH --output=mrvtt-inference-newest-%A.out
+#SBATCH --output=./out/mrvtt-inference-newest-%A.out
 
 set -e
 

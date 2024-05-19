@@ -1,0 +1,61 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Sat May 18 18:31:32 2024       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 545.23.08              Driver Version: 545.23.08    CUDA Version: 12.3     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA A100-SXM4-40GB          On  | 00000000:CA:00.0 Off |                  Off |
+| N/A   30C    P0              49W / 400W |      4MiB / 40960MiB |      0%      Default |
+|                                         |                      |             Disabled |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+[2024-05-18 18:31:48,325] [INFO] [real_accelerator.py:110:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+usage: model_activitynet_qa.py [-h] --video_dir VIDEO_DIR --gt_file_question
+                               GT_FILE_QUESTION --gt_file_answers
+                               GT_FILE_ANSWERS --output_dir OUTPUT_DIR
+                               --output_name OUTPUT_NAME
+                               [--model-path MODEL_PATH]
+                               [--model-base MODEL_BASE]
+                               [--conv-mode CONV_MODE]
+                               [--num-chunks NUM_CHUNKS]
+                               [--chunk-idx CHUNK_IDX]
+                               [--model-max-length MODEL_MAX_LENGTH]
+model_activitynet_qa.py: error: unrecognized arguments: --video_fps 6
+
+JOB STATISTICS
+==============
+Job ID: 6278165
+Cluster: snellius
+User/Group: scur0405/scur0405
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:17
+CPU Efficiency: 2.62% of 00:10:48 core-walltime
+Job Wall-clock time: 00:00:36
+Memory Utilized: 1.23 MB
+Memory Efficiency: 0.00% of 120.00 GB

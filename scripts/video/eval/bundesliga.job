@@ -19,6 +19,16 @@ module load CUDA/11.7.0
 # Activate your environment
 source activate llamavid
 
-python scripts/extra_tool/extract_video_features_subtitles.py \
-    --video_file /data/LLaMA-VID-Eval/bundesliga \
-    --feat_dir /data/LLaMA-VID-Eval/bundesliga
+
+# # preprocessing step
+# python scripts/extra_tool/extract_video_features_subtitles.py \
+#     --video_file data/LLaMA-VID-Eval/bundesliga/bundesliga_1.mp4 \
+#     --feat_dir data/LLaMA-VID-Eval/bundesliga
+
+
+# inference step
+python llamavid/serve/run_llamavid_movie.py \
+    --model-path work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
+    --video-file data/LLaMA-VID-Eval/bundesliga/bundesliga_1.mp4 \
+    --load-4bit \
+    --question "What is happening in the video?"

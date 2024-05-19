@@ -20,11 +20,7 @@ source activate llama_3_instruct
 
 conda list
 
-CUDA_VISIBLE_DEVICES='0'
-gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
-IFS=',' read -ra GPULIST <<< "$gpu_list"
-
-CHUNKS=${#GPULIST[@]}
+CHUNKS=1
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
@@ -33,6 +29,6 @@ python llamavid/eval/eval_crime_qa_llama.py \
     --output_dir ./work_dirs/eval_ucf_crime/$CKPT/results \
     --output_json ./work_dirs/eval_ucf_crime/$CKPT/results.json \
     --num_chunks $CHUNKS \
-    --num_tasks 2 \
+    --num_tasks 1 \
 
 

@@ -7,7 +7,7 @@
 #SBATCH --gpus=4
 #SBATCH --job-name=msvd-eval-llama3
 #SBATCH --time=00:59:00
-#SBATCH --output=msvd-eval-llama3-newest-%A.out
+#SBATCH --output=./out/msvd-eval-llama3-newest-%A.out
 
 set -e
 

@@ -902,6 +902,8 @@ class LazySupervisedDataset(Dataset):
                     else:
                         vr = VideoReader(video_file, ctx=cpu(0))
                         sample_fps = round(vr.get_avg_fps()/self.data_args.video_fps)
+                        # print("XXXXXXX TENCTACION Sample fps: ", sample_fps, " XXXXXXXXXXXXXX")
+                        # print("XXXXXXX TENCTACION VIDEO FPS: ", self.data_args.video_fps)
                         frame_idx = [i for i in range(0, len(vr), sample_fps)]
                         video = vr.get_batch(frame_idx).asnumpy()
                         processor = self.data_args.image_processor
