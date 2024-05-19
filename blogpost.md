@@ -131,10 +131,10 @@ Results of your work (link that part with the code in the jupyter notebook)
 
 ## Author's contributions:
 
-Antonis: Initial setup of the codebase, built the environment in the cluster, executed the inferences for image and video benchmarks. Created scripts for evaluating the zero-shot performance of LLaMA-VId on Crime and animal-kingdom dataset respectively. Further fine-tuning LLaMA-VID on these two new datasets.
-Vasilis: Literature review to spot weaknesses of LLaMA-VID, ablation study to explore details in videos, investigation and selection of animal-kingdom dataset. Pre-processing of the dataset, data-pipeline set-up and implementation of the respective inference and fine-tuning tasks.
-Fanis: Identification of anomaly detection dataset. Ablation study to explore missing detail information. Data pipeline setup for a new dataset. Finetuning on a new dataset. Reviewing literature and related work for potential short-comings of the paper, and VLMs in general.
-Emmanouil: Helping in the initial setup of the codebase and the execution of inferences for images and video benchmarks. Understanding how the fine-tuning is executable and how to set it up. Helping preprocess the dataset and setup the fine-tuning execution. 
+- Antonis: Initial setup of the codebase, built the environment in the cluster, executed the inferences for image and video benchmarks. Created scripts for evaluating the zero-shot performance of LLaMA-VId on Crime and animal-kingdom dataset respectively. Further fine-tuning LLaMA-VID on these two new datasets.
+- Vasilis: Literature review to spot weaknesses of LLaMA-VID, ablation study to explore details in videos, investigation and selection of animal-kingdom dataset. Pre-processing of the dataset, data-pipeline set-up and implementation of the respective inference and fine-tuning tasks.
+- Fanis: Identification of anomaly detection dataset. Ablation study to explore missing detail information. Data pipeline setup for a new dataset. Finetuning on a new dataset. Reviewing literature and related work for potential short-comings of the paper, and VLMs in general.
+- Emmanouil: Helping in the initial setup of the codebase and the execution of inferences for images and video benchmarks. Understanding how the fine-tuning is executable and how to set it up. Helping preprocess the dataset and setup the fine-tuning execution. 
 Oliver: Helping with the reproducibility, initial spike regarding zero-shot evaluation on new dataset. Writing blogpost. 
 
 
