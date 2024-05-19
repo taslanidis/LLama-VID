@@ -1,4 +1,3 @@
-Draft:
 # Seeking the limitations of "LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"
 
 ### A. Tragoudaras, E.G. Lionis, O. Neut, T. Aslanidis, V. Karlis.
@@ -86,7 +85,15 @@ Utilizing these extended videos and the generated QA pairs, instruction tuning i
 
 For the reproducibility of LLaMA-VID, we had to run inference for several benchmarks that consisted of image-only and video benchmarks. We attempted to reproduce the results reported in the original LLaMA-VID paper and achieved similar outcomes. This successful replication strengthens the validity of the original findings and provides a solid foundation for our further investigation into the model's ability to capture detailed information in complex video frames.
 
-### Image Only | LLM | Res. | Model | GQA | MMB | POPE | SQA-Image | VizWiz | VQA v2 | |----------|----------|-----------|---|---|---|---|---|---| Vicuna-7B | 336 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) | 64.38 | 65.63 | 86.1 | 68.22 | 55.18 | 79.25 | ### Video | LLM | Res. | Model | MSVD-QA \w [Llama3](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) as QA expert| |----------|----------|-----------|---| Vicuna-7B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1) | 59.17 |
+### Image Only
+| LLM | Res. | Model | GQA | MMB | POPE | SQA-Image | VizWiz | VQA v2 |
+|----------|----------|-----------|---|---|---|---|---|---|
+Vicuna-7B | 336 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) | 64.38 | 65.63 | 86.1 | 68.22 | 55.18 | 79.25 |
+
+### Video
+| LLM | Res. | Model | MSVD-QA \w [Llama3](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) as QA expert|
+|----------|----------|-----------|---|
+Vicuna-7B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1) | 59.17 |
 
 
 ## Expected Limitations
