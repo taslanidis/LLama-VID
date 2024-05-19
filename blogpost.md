@@ -112,7 +112,7 @@ To rigorously test our hypothesis, we propose evaluating LLaMA-VID on two new da
 ### Crime Dataset: 
 Surveillance cameras are capturing a plethora of videos of daily activities at specific places. Most of the videos captured contain realistic normal activities, but sometimes some anomalies may arise, such as illegal activities, a crime, or a traffic accident. These anomalous activities are identified through fine-grained information in the videos, such as the color of a traffic light for a specific moment, the item someone is holding in his hand, or an abrupt action such as a punch or a kick.
 
-Thus, such a dataset containing various surveillance videos provides us with an excellent candidate to test the understanding and reasoning abilities of a Visual Language Model. For this, we will use the UCF Crime dataset by Sultani et. al. [2018]
+Thus, such a dataset containing various surveillance videos provides us with an excellent candidate to test the understanding and reasoning abilities of a Visual Language Model. For this, we will use the UCF Crime dataset by [Sultani et. al.2018]
 
 The task for which we will perform inference demands the model to identify subtle and often rapidly occurring actions indicative of criminal activity. As we described, anomalous activities might span a very small amount of time in the video. Thus, we will do an ablation study to show if indeed the model can’t identify what happened in the video, irrespective of the amount of frames per second. Having only one frame per second is something that could easily be argued as the culprit of the model to loss of information on such activities.
 
@@ -127,12 +127,10 @@ As this dataset contains several subtasks we have focused on video data from the
 
 ## Contribution:
 
-Describe your novel contribution.
-
+This section is intentionally left blank, as we will fill them out when we have the results on our extensions. That way, it will be easier to introduce them and motivate them.
 
 ## Results:
-
-Results of your work (link that part with the code in the jupyter notebook)
+Will be filled when we have them available.
 
 ## Conclusion:
 
@@ -145,8 +143,6 @@ Results of your work (link that part with the code in the jupyter notebook)
 - Oliver: Helping with the reproducibility, initial spike regarding zero-shot evaluation on new dataset. Writing blogpost. 
 
 
-
-Close the notebook with a description of each student's contribution.
 
 ## Bibliography:
 
