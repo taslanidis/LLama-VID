@@ -28,7 +28,7 @@ deepspeed llamavid/train/train_mem.py \
     --image_folder ./data/LLaMA-VID-Finetune \
     --video_folder ./data/LLaMA-VID-Finetune \
     --vision_tower ./model_zoo/LAVIS/eva_vit_g.pth \
-    --image_processor ./src/llamavid/processor/clip-patch14-224 \
+    --image_processor ./llamavid/processor/clip-patch14-224 \
     --mm_projector_type mlp2x_gelu \
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
