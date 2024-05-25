@@ -21,8 +21,8 @@ source /cluster/scratch/kfanaras/miniconda3/etc/profile.d/conda.sh
 # Activate your environment
 conda activate llamavid
 
-deepspeed src/llamavid/train/train_mem.py \
-    --deepspeed ./src/scripts/zero2_offload.json \
+deepspeed llamavid/train/train_mem.py \
+    --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path ./work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
     --version imgsp_v1 \
     --data_path ./data/LLaMA-VID-Finetune/animal-grounding/train_grounding_animals.json \
