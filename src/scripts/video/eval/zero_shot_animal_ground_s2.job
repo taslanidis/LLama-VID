@@ -18,7 +18,7 @@ module load CUDA/11.7.0
 
 source activate llama_3_instruct
 
-CHUNKS=1 #num of gpus used during inference
+CHUNKS=2 #num of gpus used during inference
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 

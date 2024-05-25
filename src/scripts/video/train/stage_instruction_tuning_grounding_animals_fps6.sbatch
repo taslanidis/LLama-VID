@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#SBATCH --gpus=4
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --gres=gpumem:90g
+#SBATCH --cpus-per-task=18
+#SBATCH --time=04:00:00
+#SBATCH --job-name=ft-fps6-animals-grounding-from-scratch
+#SBATCH --output=./out/ft-fps6-animals-grounding-from-scratch-%A.out
+
+set -e
+
+module purge
+module load StdEnv
+module load eth_proxy
+module load cuda/11.7.0
+
+source /cluster/scratch/kfanaras/miniconda3/etc/profile.d/conda.sh
+
+# Activate your environment
+conda activate llamavid
+
+deepspeed src/llamavid/train/train_mem.py \
+    --deepspeed ./src/scripts/zero2_offload.json \
+    --model_name_or_path ./work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
+    --version imgsp_v1 \
+    --data_path ./data/LLaMA-VID-Finetune/animal-grounding/train_grounding_animals.json \
+    --image_folder ./data/LLaMA-VID-Finetune \
+    --video_folder ./data/LLaMA-VID-Finetune \
+    --vision_tower ./model_zoo/LAVIS/eva_vit_g.pth \
+    --image_processor ./src/llamavid/processor/clip-patch14-224 \
+    --mm_projector_type mlp2x_gelu \
+    --mm_vision_select_layer -2 \
+    --mm_use_im_start_end False \
+    --mm_use_im_patch_token False \
+    --image_aspect_ratio pad \
+    --group_by_modality_length False \
+    --video_fps 6 \
+    --video_token 2 \
+    --bert_type "qformer_pretrain_freeze_all" \
+    --num_query 32 \
+    --compress_type "mean" \
+    --bf16 True \
+    --output_dir ./work_dirs/finetuning-grounding-animals-fps-6-ckpt \
+    --num_train_epochs 1 \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 2 \
+    --evaluation_strategy "no" \
+    --save_strategy "steps" \
+    --save_steps 200 \
+    --save_total_limit 1 \
+    --learning_rate 2e-5 \
+    --weight_decay 0. \
+    --warmup_ratio 0.03 \
+    --lr_scheduler_type "cosine" \
+    --logging_steps 1 \
+    --tf32 True \
+    --model_max_length 65536 \
+    --gradient_checkpointing True \
+    --dataloader_num_workers 1 \
+    --lazy_preprocess True \
+    --report_to wandb
