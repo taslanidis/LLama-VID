@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=4
 #SBATCH --job-name=ft-fps6-animals-grounding-from-scratch
-#SBATCH --time=01:30:00
+#SBATCH --time=04:00:00
 #SBATCH --output=./out/ft-fps6-animals-grounding-from-scratch-%A.out
 
 set -e
