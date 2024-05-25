@@ -17,6 +17,7 @@ module load eth_proxy
 module load cuda/11.7.0
 
 
+source /cluster/scratch/kfanaras/miniconda3/etc/profile.d/conda.sh
 conda create -n llamavid python=3.10 -y
 conda activate llamavid
 
