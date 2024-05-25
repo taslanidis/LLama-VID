@@ -1,10 +1,10 @@
 # Seeking the limitations of "LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"
 ### A. Tragadouras, E.G. Lionis, T. Aslanidis, V. Karlis, O. Neut
 
-In this repository, we have code to reproduce and extend on the findings of the paper titled ["LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"](https://arxiv.org/abs/2311.17043).
+In this repository, we have code to reproduce and extend the findings of the paper titled ["LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"](https://arxiv.org/abs/2311.17043).
 ---
 
-## Stucture of Repository
+## Structure of Repository
 The structure of the repository has tried to be as modularized as possible and stay as original structure of the original authors to not cause any problems with dependencies. The repository must follow the following structure:
 ```
 repo
@@ -68,7 +68,7 @@ More details for some files/folders are the following:
     - **model_zoo**:    Folder with all imported weights for the LLM and vision encoder
     - **llamavid**:     The code that has the model architecture and will be executed by the scripts
     - **scripts**:      The executable code
-    - **work_dirs**:    The output of training, fine-tuning and evaluation. If a pretrain model is used, then this folder has to have the weights.
+    - **work_dirs**:    The output of training, fine-tuning and evaluation. If a pre-train model is used, then this folder has to have the weights.
     - **llama-vid**:    The weights of the llama-vid model from the original authors
     - **llama-vid-7b-full-224-video-fps-1_grounding_finetuning**:
                         The weights for the finetuning with the animal grounding dataset
@@ -81,8 +81,8 @@ More details for some files/folders are the following:
         - **LLaMA-VID-Pretrain**:   The data for pre-train purposes
         - **LLaMA-VID-Finetune**:   The data for finetuning
 - **requirements_llama_three.txt**:
-- **install_llama_environment.job**: Executable to install the conda enviroment in a server
-- **install_environment.job**: Executable to install the conda enviroment in a server
+- **install_llama_environment.job**: Executable to install the conda environment in a server
+- **install_environment.job**: Executable to install the conda environment in a server
 
 
 ## Download Data
@@ -92,24 +92,24 @@ The data that has been used in this project, can be split into reproducible data
 The reproducible data is the benchmarks that the authors used and can be found in the [original repository](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#dataset). In order to download this dataset, someone has to follow the steps that the original authors describe for the images and short video evaluations.
 
 ### Extended data
-The extended data are data from two different datasets. The one dataset is [animal kingdom dataset](https://sutdcv.github.io/Animal-Kingdom/) which we took the Video Grounding dataset, where we used it for fine-tuning and inference purposes. This data contains 50 hours of annotated videos to localize relevant animal behavior segments in long videos. In order to download them you need to request access through the [form](https://forms.office.com/pages/responsepage.aspx?id=drd2NJDpck-5UGJImDFiPVRYpnTEMixKqPJ1FxwK6VZUQkNTSkRISTNORUI2TDBWMUpZTlQ5WUlaSyQlQCN0PWcu) that they have in their page and get the sharepoint link. For a similar reason, the second dataset is [UCF-Crime dataset](https://paperswithcode.com/dataset/ucf-crime) and it consists of footage from 1900 long and untrimmed real-world surveillance videos, with 13 activities. In order to download this benchmark you can execute `scripts/download_ucf_crime.sh` script or manually download it from the dropbox url that they provide on their page.
+The extended data are data from two different datasets. The one dataset is [animal kingdom dataset](https://sutdcv.github.io/Animal-Kingdom/) which we took the Video Grounding dataset, where we used it for fine-tuning and inference purposes. This data contains 50 hours of annotated videos to localize relevant animal behavior segments in long videos. In order to download them you need to request access through the [form](https://forms.office.com/pages/responsepage.aspx?id=drd2NJDpck-5UGJImDFiPVRYpnTEMixKqPJ1FxwK6VZUQkNTSkRISTNORUI2TDBWMUpZTlQ5WUlaSyQlQCN0PWcu) that they have in their page and get the sharepoint link. For a similar reason, the second dataset is [UCF-Crime dataset](https://paperswithcode.com/dataset/ucf-crime) and it consists of footage from 1900 long and untrimmed real-world surveillance videos, with 13 activities. In order to download this benchmark you can execute `scripts/download_ucf_crime.sh` script or manually download it from the Dropbox URL that they provide on their page.
 
 ## Download Pre-trained Weights
-The step to download the pre-trained weights are split into to 2 parts. The weights that are needed for the model to use also in the training and inferance and are a must. There also the weights have passed though finetuning and are not neceassary if you are planning to retrain from the start the model.
+The steps to download the pre-trained weights are split into two 2 parts. The weights that are needed for the model to be used also in the training and inference and are a must. There also the weights have passed through finetuning and are not necessary if you are planning to retrain from the start of the model.
 
 ### Necessary pre-trained weights
-There is a [section](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#pretrained-weights) from the original authors to describe how to download the necessary weights. You must put them under model_zoo as defined in the [structure](https://github.com/taslanidis/LLama-VID?tab=readme-ov-file#stucture-of-repository). We used the [vicuna-7b-v1.5](https://huggingface.co/lmsys/vicuna-7b-v1.5) data out of the vicuna and have to be placed under `src/model_zoo/LLM/vicuna`. Also we downloaded the [EVA-ViT-G](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/eva_vit_g.pth), [QFormer-7b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth), [QFormer-13b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna13b_trimmed.pth) under `src/model_zoo/LAVIS`.
+There is a [section](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#pretrained-weights) from the original authors to describe how to download the necessary weights. You must put them under model_zoo as defined in the [structure](https://github.com/taslanidis/LLama-VID?tab=readme-ov-file#structure-of-repository). We used the [vicuna-7b-v1.5](https://huggingface.co/lmsys/vicuna-7b-v1.5) data out of the vicuna and have to be placed under `src/model_zoo/LLM/vicuna`. Also we downloaded the [EVA-ViT-G](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/eva_vit_g.pth), [QFormer-7b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth), [QFormer-13b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna13b_trimmed.pth) under `src/model_zoo/LAVIS`.
 
 ### Pretrained finetuned original models
-The offered trained model wieghts can be found under the [table](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#model) of the original authors repository. You can choose one of those model and download them undert the `src/work_dirs`. If `work_dirs` folder is not created then you have to create it. 
+The offered trained model weights can be found under the [table](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#model) of the original author's repository. You can choose one of those models and download them under the `src/work_dirs`. If `work_dirs` folder is not created then you have to create it. 
 
-### Pretrained finetuned extention models
-The weights of the finetuned extention models can be found in the [LINK](NO LINK) and have to download in the `src/work_dirs`.
+### Pretrained finetuned extension models
+The weights of the finetuned extension models can be found in the [LINK](NO LINK) and have to be downloaded in the `src/work_dirs`.
 
 ## Conda Environments
 In this project, we had to create two different conda environments. Those are ***llamavid*** and ***llama_3_instruct***. This necessity initially arose to reproduce the performance of LLaMA_VID in the zero-shot video QA (Question Answering) benchmarks MSVD-QA and MSRVTT-QA. The authors utilize 'gpt-3.5-turbo' capabilities in text generation to evaluate the predictions made by the LLaMA-VID model in these Visual Question-answering tasks. Given an annotated pair of a question and a single-word answer related to the video, we need to evaluate if the prediction made by the proposed model agrees with the annotated single-word answer used as a label. Since 'gpt-3.5-turbo' is a closed model and we did not have access to an API key, we substituted it with[Meta-Llama-3-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct), one of the newest open-source LLMs released by Meta that has text-generation capabilities. The caveat is that the latter LLM depends on a newer transformer version that is not compatible with the transformer version used in [LLAVA](https://arxiv.org/pdf/2304.08485), a backbone that LLaMA-VID builds upon, which justifies our decision to use two different environments. So whenever we need to evaluate the correctness of the LLaMA-VID model predictions in QA tasks, we use the *llama_3_instruct environment.
 
-Both environments have a job script for building the environments in a cluster. To install them localy, one has to follow the following commands:
+Both environments have a job script for building the environments in a cluster. To install them locally, one has to follow the following commands:
 
 ### llamavid installation
 ```
