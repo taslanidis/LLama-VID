@@ -12,8 +12,7 @@
 set -e 
 
 module purge
-# module load 2022
-# module load Miniconda3/4.12.0
+module load StdEnv
 module load eth_proxy
 module load cuda/11.7.0
 
