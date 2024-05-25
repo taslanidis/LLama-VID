@@ -22,7 +22,7 @@ CHUNKS=1 #num of gpus used during inference
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
-python llamavid/eval/eval_animal_llama.py \
+python src/llamavid/eval/eval_animal_llama.py \
     --pred_path ./work_dirs/animal_kingdom/grounding_newest/$CKPT/pred.json \
     --output_dir ./work_dirs/animal_kingdom/grounding_newest/$CKPT/results \
     --output_json ./work_dirs/animal_kingdom/grounding_newest/$CKPT/results.json \
