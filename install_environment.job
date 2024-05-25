@@ -29,5 +29,3 @@ pip install flash-attn==2.1.2.post3 --no-build-isolation
 pip install openai==0.28.0
 pip install -U openai-whisper
 conda install -c conda-forge code-server
-
-mv llamavid.egg-info ./src
