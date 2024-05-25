@@ -30,7 +30,7 @@ CHUNKS=${#GPULIST[@]}
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
-    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python src/llamavid/eval/model_activitynet_qa.py \
+    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_activitynet_qa.py \
     --model-path ./work_dirs/$CKPT \
     --video_dir ./data/LLaMA-VID-Eval/animal-kingdom/grounding/videos \
     --gt_file_question ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_questions.json \

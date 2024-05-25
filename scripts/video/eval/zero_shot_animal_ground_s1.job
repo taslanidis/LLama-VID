@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=2
 #SBATCH --job-name=full-zs-animal_grounding
-#SBATCH --time=04:00:00
+#SBATCH --time=00:15:00
 #SBATCH --output=./out/zs_animal_grounding_s1_full-%A.out
 
 set -e
@@ -28,7 +28,7 @@ CHUNKS=${#GPULIST[@]}
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
-    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python src/llamavid/eval/model_activitynet_qa.py \
+    CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_activitynet_qa.py \
     --model-path ./work_dirs/$CKPT \
     --video_dir ./data/LLaMA-VID-Eval/animal-kingdom/grounding/videos \
     --gt_file_question ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_questions.json \

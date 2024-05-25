@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --gres=gpumem:50g
 #SBATCH --cpus-per-task=18
-#SBATCH --time=01:00:00
+#SBATCH --time=00:15:00
 #SBATCH --output=install_environment-%A.out
 
 #exit if an error occurs
