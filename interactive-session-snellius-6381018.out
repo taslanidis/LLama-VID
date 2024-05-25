@@ -1,0 +1,56 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Copy the following line in a new terminal to create a secure SSH tunnel between your computer and Ibex compute node.
+ssh -L localhost:10121:gcn30.local.snellius.surf.nl:10121 scur0405@snellius.surf.nl
+[2024-05-25T02:20:05.951Z] info  code-server 4.23.1 9a28bc29dbddb6886dfe03dc1c31320249a901ce
+[2024-05-25T02:20:05.952Z] info  Using user-data-dir /home/scur0405/.local/share/code-server
+[2024-05-25T02:20:05.965Z] info  Using config file /home/scur0405/.config/code-server/config_interactive.yaml
+[2024-05-25T02:20:05.966Z] info  HTTP server listening on http://172.18.62.30:10121/
+[2024-05-25T02:20:05.966Z] info    - Authentication is enabled
+[2024-05-25T02:20:05.966Z] info      - Using password from /home/scur0405/.config/code-server/config_interactive.yaml
+[2024-05-25T02:20:05.966Z] info    - Not serving HTTPS
+[2024-05-25T02:20:05.966Z] info  Session server listening on /home/scur0405/.local/share/code-server/code-server-ipc.sock
+[04:20:46] 
+
+
+
+
+[04:20:46] Extension host agent started.
+File not found: /gpfs/home4/scur0405/.conda/envs/llamavid/share/code-server/lib/vscode/out/vsda.js
+File not found: /gpfs/home4/scur0405/.conda/envs/llamavid/share/code-server/lib/vscode/out/vsda_bg.wasm
+[04:20:48] [172.18.63.190][901a6eff][ManagementConnection] New connection established.
+[04:20:50] [172.18.63.190][aa5a7af3][ExtensionHostConnection] New connection established.
+[04:20:50] [172.18.63.190][aa5a7af3][ExtensionHostConnection] <1315809> Launched Extension Host Process.
+File not found: /gpfs/home4/scur0405/.conda/envs/llamavid/share/code-server/lib/vscode/node_modules/vscode-regexp-languagedetection/dist/index.js
+[04:22:13] [172.18.63.190][901a6eff][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+[04:22:13] [172.18.63.190][aa5a7af3][ExtensionHostConnection] <1315809> Extension Host Process exited with code: 0, signal: null.
+slurmstepd: error: *** JOB 6381018 ON gcn30 CANCELLED AT 2024-05-25T04:22:27 ***
+slurmstepd: error: container_p_join: setns failed for /slurm/6381018/.ns: Invalid argument
+slurmstepd: error: container_g_join(6381018): Invalid argument
+
+JOB STATISTICS
+==============
+Job ID: 6381018
+Cluster: snellius
+User/Group: scur0405/scur0405
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 18
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.04% of 00:45:18 core-walltime
+Job Wall-clock time: 00:02:31
+Memory Utilized: 472.10 MB
+Memory Efficiency: 0.38% of 120.00 GB

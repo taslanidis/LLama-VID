@@ -2,12 +2,12 @@
 
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
+#SBATCH --ntasks=2
 #SBATCH --cpus-per-task=18
-#SBATCH --gpus=1
-#SBATCH --job-name=zs-animal_grounding
-#SBATCH --time=00:55:00
-#SBATCH --output=./out/zs_animal_grounding_s1-%A.out
+#SBATCH --gpus=2
+#SBATCH --job-name=full-zs-animal_grounding
+#SBATCH --time=03:05:00
+#SBATCH --output=./out/zs_animal_grounding_s1_full-%A.out
 
 set -e
 
@@ -19,9 +19,7 @@ module load CUDA/11.7.0
 # Activate your environment
 source activate llamavid
 
-nvidia-smi
-
-CUDA_VISIBLE_DEVICES='0'
+CUDA_VISIBLE_DEVICES='0,1,2,3'
 gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
 IFS=',' read -ra GPULIST <<< "$gpu_list"
 
@@ -35,7 +33,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     --video_dir ./data/LLaMA-VID-Eval/animal-kingdom/grounding/videos \
     --gt_file_question ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_questions.json \
     --gt_file_answers ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_answers.json \
-    --output_dir ./work_dirs/animal_kingdom/grounding/$CKPT \
+    --output_dir ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT \
     --output_name pred \
     --num-chunks $CHUNKS \
     --chunk-idx $IDX \

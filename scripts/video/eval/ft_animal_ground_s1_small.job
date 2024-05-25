@@ -4,10 +4,10 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
-#SBATCH --gpus=4
-#SBATCH --job-name=zs_animal_action_rec
-#SBATCH --time=01:30:00
-#SBATCH --output=./out/zs_animal_action_rec_s1-%A.out
+#SBATCH --gpus=1
+#SBATCH --job-name=eval_ft_small_animal_grounding_fps-1
+#SBATCH --time=00:10:00
+#SBATCH --output=./out/ft_small_animal_grounding_s1_fps-1-%A.out
 
 set -e
 
@@ -21,21 +21,21 @@ source activate llamavid
 
 nvidia-smi
 
-CUDA_VISIBLE_DEVICES='0,1,2,3'
+CUDA_VISIBLE_DEVICES='0'
 gpu_list="${CUDA_VISIBLE_DEVICES:-0}"
 IFS=',' read -ra GPULIST <<< "$gpu_list"
 
 CHUNKS=${#GPULIST[@]}
 
-CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+CKPT="finetuning-grounding-animals-scratch-fps-1-ckpt"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_activitynet_qa.py \
     --model-path ./work_dirs/$CKPT \
-    --video_dir ./data/LLaMA-VID-Eval/animal-kingdom/action_recognition/videos \
-    --gt_file_question ./data/LLaMA-VID-Eval/animal-kingdom/action_recognition/test_questions.json \
-    --gt_file_answers ./data/LLaMA-VID-Eval/animal-kingdom/action_recognition/test_answers.json \
-    --output_dir ./work_dirs/animal_kingdom/action_recognition/$CKPT \
+    --video_dir ./data/LLaMA-VID-Eval/animal-kingdom/grounding/videos \
+    --gt_file_question ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_questions.json \
+    --gt_file_answers ./data/LLaMA-VID-Eval/animal-kingdom/grounding/test_answers.json \
+    --output_dir ./work_dirs/animal_kingdom/grounding_reduced_ft/$CKPT \
     --output_name pred \
     --num-chunks $CHUNKS \
     --chunk-idx $IDX \

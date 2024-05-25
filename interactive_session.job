@@ -4,9 +4,9 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
-#SBATCH --gpus=4
+#SBATCH --gpus=1
 #SBATCH --job-name=interactive
-#SBATCH --time=00:20:00
+#SBATCH --time=00:10:00
 #SBATCH --output=interactive-session-snellius-%A.out
 
 set -e

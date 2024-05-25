@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --job-name=zs-eval-animal-grounding-llama3
+#SBATCH --time=00:59:00
+#SBATCH --output=./out/zs-eval-animal_grounding_s2-%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+source activate llama_3_instruct
+
+CHUNKS=1 #num of gpus used during inference
+
+CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+
+python llamavid/eval/eval_animal_llama.py \
+    --pred_path ./work_dirs/animal_kingdom/grounding_newest/$CKPT/pred.json \
+    --output_dir ./work_dirs/animal_kingdom/grounding_newest/$CKPT/results \
+    --output_json ./work_dirs/animal_kingdom/grounding_newest/$CKPT/results.json \
+    --num_chunks $CHUNKS \
+    --num_tasks 2 \
+
+

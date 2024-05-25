@@ -51,10 +51,10 @@ def load_video(video_path):
     vr = VideoReader(video_path, ctx=cpu(0))
     total_frame_num = len(vr)
     fps = round(vr.get_avg_fps())
-    print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
+    # print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
     frame_idx = [i for i in range(0, len(vr), fps)]
     spare_frames = vr.get_batch(frame_idx).asnumpy()
-    print("Spare frames: ", len(spare_frames), len(frame_idx))
+    # print("Spare frames: ", len(spare_frames), len(frame_idx))
     return spare_frames
 
 
@@ -148,7 +148,7 @@ def run_inference(args):
         stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
 
         cur_prompt = question
-        print("------------------------------------------ question:", cur_prompt)
+        # print("------------------------------------------ question:", cur_prompt)
 
         with torch.inference_mode():
             model.update_prompt([[cur_prompt]])
@@ -167,13 +167,13 @@ def run_inference(args):
         if n_diff_input_output > 0:
             print(f'[Warning] {n_diff_input_output} output_ids are not the same as the input_ids')
         outputs = tokenizer.batch_decode(output_ids[:, input_token_len:], skip_special_tokens=True)[0]
-        print("------------------------------------------ initial output:", outputs)
+        # print("------------------------------------------ initial output:", outputs)
 
         outputs = outputs.strip()
         if outputs.endswith(stop_str):
             outputs = outputs[:-len(stop_str)]
         outputs = outputs.strip()
-        print("------------------------------------------ final output:", outputs)
+        # print("------------------------------------------ final output:", outputs)
 
         sample_set['pred'] = outputs
         ans_file.write(json.dumps(sample_set) + "\n")

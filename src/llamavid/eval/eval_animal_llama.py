@@ -40,7 +40,6 @@ def annotate(prediction_set, caption_files, output_dir):
         question = qa_set['q']
         answer = qa_set['a']
         pred = qa_set['pred']
-        print("----------------------------predddd:", pred)
         try:
             # Compute the correctness score
             messages=[

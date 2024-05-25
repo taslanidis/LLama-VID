@@ -5,9 +5,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=1
-#SBATCH --job-name=crime-activity-llama
+#SBATCH --job-name=zs-eval-animal-action-rec-llama3
 #SBATCH --time=00:59:00
-#SBATCH --output=./out/animal_action_rec_s2-%A.out
+#SBATCH --output=./out/zs-eval-animal_action_rec_s2-%A.out
 
 set -e
 
@@ -20,7 +20,7 @@ source activate llama_3_instruct
 
 conda list
 
-CHUNKS=1
+CHUNKS=4
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 

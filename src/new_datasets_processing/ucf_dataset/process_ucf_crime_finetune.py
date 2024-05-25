@@ -2,12 +2,15 @@ import json
 import re
 import glob
 
+from decord import VideoReader, cpu
+
+
 if __name__ == "__main__":
     # create json file empty
-    with open('./data/LLaMA-VID-Eval/ucf-crime/questions.json', 'r') as f:
+    with open('/scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/questions.json', 'r') as f:
         questions = json.load(f)
 
-    with open('./data/LLaMA-VID-Eval/ucf-crime/test_questions.json', 'r') as f:
+    with open('/scratch-shared/scur0405/data/LLaMA-VID-Eval/ucf-crime/test_questions.json', 'r') as f:
         test_questions = json.load(f)
 
     train_questions = []
@@ -36,23 +39,31 @@ if __name__ == "__main__":
         output_list.append(insert)
  
     print("Big dataset size:", len(output_list))
-    with open(f"./data/LLaMA-VID-Finetune/ucf-crime/crime_detection_qa_ft.json", "w+") as f:
+    with open(f"/scratch-shared/scur0405/data/LLaMA-VID-Finetune/ucf-crime/crime_detection_qa_ft.json", "w+") as f:
         json.dump(output_list, f)
 
     small_videos_list = []
-    from decord import VideoReader, cpu
+    really_small_videos_list = []
 
     for question in output_list:
-        video_path: str = "./data/LLaMA-VID-Eval/" + question['video']
+        video_path: str = "/scratch-shared/scur0405/data/LLaMA-VID-Eval/" + question['video']
         vr = VideoReader(video_path, ctx=cpu(0))
         total_frame_num = len(vr)
         fps = round(vr.get_avg_fps())
-        print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
+        # print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
         frame_idx = [i for i in range(0, len(vr), fps)]
-        if len(frame_idx) <= 120:
+        if len(frame_idx) < 1800:
             small_videos_list.append(question)
+        
+        if len(frame_idx) < 120:
+            really_small_videos_list.append(question)
 
 
-    print("Small dataset size:", len(small_videos_list))
-    with open(f"./data/LLaMA-VID-Finetune/ucf-crime/crime_detection_small_qa_ft.json", "w+") as f:
+    print("Medium dataset size:", len(small_videos_list))
+    with open(f"/scratch-shared/scur0405/data/LLaMA-VID-Finetune/ucf-crime/crime_detection_medium_qa_ft.json", "w+") as f:
         json.dump(small_videos_list, f)
+
+
+    print("Small dataset size:", len(really_small_videos_list))
+    with open(f"/scratch-shared/scur0405/data/LLaMA-VID-Finetune/ucf-crime/crime_detection_small_qa_ft.json", "w+") as f:
+        json.dump(really_small_videos_list, f)
