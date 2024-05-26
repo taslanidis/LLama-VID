@@ -1,8 +1,8 @@
 # Seeking the limitations of "LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"
 ### A. Tragadouras, E.G. Lionis, T. Aslanidis, V. Karlis, O. Neut
+---
 
 In this repository, we have code to reproduce and extend the findings of the paper titled ["LLaMA-VID: An Image is Worth 2 Tokens in Large Language Models"](https://arxiv.org/abs/2311.17043).
----
 
 ## Structure of Repository
 The structure of the repository has tried to be as modularized as possible and stay as original structure of the original authors to not cause any problems with dependencies. The repository must follow the following structure:
@@ -62,7 +62,7 @@ repo
 
 
 More details for some files/folders are the following:
-- **readme.md**:      Description of the repo with relevant
+- **readme.md**:      Description of the repository
 - **blogpost.md**:    Blogpost report
 - **src**:            contains the main project files
     - **model_zoo**:    Folder with all imported weights for the LLM and vision encoder
@@ -89,13 +89,13 @@ More details for some files/folders are the following:
 The data that has been used in this project, can be split into reproducible data and the extension data. 
 
 ### Original benchmarks
-The reproducible data is the benchmarks that the authors used and can be found in the [original repository](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#dataset). In order to download this dataset, someone has to follow the steps that the original authors describe for the images and short video evaluations.
+The reproducible data is the benchmarks that the authors used and can be found in the [original repository](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#dataset). In order to download this dataset, one has to follow the steps that the original authors describe for the images and short video evaluations.
 
 ### Extended data
 The extended data are data from two different datasets. The one dataset is [animal kingdom dataset](https://sutdcv.github.io/Animal-Kingdom/) which we took the Video Grounding dataset, where we used it for fine-tuning and inference purposes. This data contains 50 hours of annotated videos to localize relevant animal behavior segments in long videos. In order to download them you need to request access through the [form](https://forms.office.com/pages/responsepage.aspx?id=drd2NJDpck-5UGJImDFiPVRYpnTEMixKqPJ1FxwK6VZUQkNTSkRISTNORUI2TDBWMUpZTlQ5WUlaSyQlQCN0PWcu) that they have in their page and get the sharepoint link. For a similar reason, the second dataset is [UCF-Crime dataset](https://paperswithcode.com/dataset/ucf-crime) and it consists of footage from 1900 long and untrimmed real-world surveillance videos, with 13 activities. In order to download this benchmark you can execute `scripts/download_ucf_crime.sh` script or manually download it from the Dropbox URL that they provide on their page.
 
 ## Download Pre-trained Weights
-The steps to download the pre-trained weights are split into two 2 parts. The weights that are needed for the model to be used also in the training and inference and are a must. There also the weights have passed through finetuning and are not necessary if you are planning to retrain from the start of the model.
+The steps to download the pre-trained weights are split into two 2 parts. The weights are needed for the performing both training and inference on the model. There also the weights have passed through finetuning and are not necessary if you are planning to retrain from the start of the model.
 
 ### Necessary pre-trained weights
 There is a [section](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#pretrained-weights) from the original authors to describe how to download the necessary weights. You must put them under model_zoo as defined in the [structure](https://github.com/taslanidis/LLama-VID?tab=readme-ov-file#structure-of-repository). We used the [vicuna-7b-v1.5](https://huggingface.co/lmsys/vicuna-7b-v1.5) data out of the vicuna and have to be placed under `src/model_zoo/LLM/vicuna`. Also we downloaded the [EVA-ViT-G](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/eva_vit_g.pth), [QFormer-7b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth), [QFormer-13b](https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna13b_trimmed.pth) under `src/model_zoo/LAVIS`.
