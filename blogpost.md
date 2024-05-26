@@ -81,19 +81,73 @@ Utilizing these extended videos and the generated QA pairs, instruction tuning i
   </tr>
 </table>
 
-## Reproducibility: LLaMA-VID
+### Reproducibility: LLaMA-VID
+For the reproducibility of LLaMA-VID, we had to run inference for several benchmarks that consisted of image-only and video benchmarks. We attempted to reproduce the results reported in the original LLaMA-VID paper and achieved similar outcomes with some minor differences. For the image benchmarks we used as Base LLM the Vicuna-7B-v1.5 with Vision Encoder the EVA-G and text encoder the QFormer-7b. The checkpoint model for the images is [image ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) but for the video, we used the [video ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1). Overall we can see that for the image-based benchmarks, we have almost the same results with some cases even having a 1% increase. To validate the videos we used [Llama3](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) as the QA expert, instead of the API-based [GPT-3.5-Turbo](https://platform.openai.com/docs/models/gpt-3-5-turbo) model that the user uses, thus we can see a discrepancy but we still see that we are near the authors values. 
 
-For the reproducibility of LLaMA-VID, we had to run inference for several benchmarks that consisted of image-only and video benchmarks. We attempted to reproduce the results reported in the original LLaMA-VID paper and achieved similar outcomes. This successful replication strengthens the validity of the original findings and provides a solid foundation for our further investigation into the model's ability to capture detailed information in complex video frames.
+<div align="center">
 
-### Image Only
-| LLM | Res. | Model | GQA | MMB | POPE | SQA-Image | VizWiz | VQA v2 |
-|----------|----------|-----------|---|---|---|---|---|---|
-Vicuna-7B | 336 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-336) | 64.38 | 65.63 | 86.1 | 68.22 | 55.18 | 79.25 |
+**Table: Benchmark Results Comparison**
 
-### Video
-| LLM | Res. | Model | MSVD-QA \w [Llama3](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct) as QA expert|
-|----------|----------|-----------|---|
-Vicuna-7B | 224 | [ckpt](https://huggingface.co/YanweiLi/llama-vid-7b-full-224-video-fps-1) | 59.17 |
+<table>
+  <tr>
+    <th>Benchmark type</th>
+    <th>Benchmark name</th>
+    <th>Authors' result</th>
+    <th>Our result</th>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>GQA</td>
+    <td>63.0</td>
+    <td>64.38</td>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>MMB</td>
+    <td>65.3</td>
+    <td>65.63</td>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>POPE</td>
+    <td>86.6</td>
+    <td>86.1</td>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>SQA-Image</td>
+    <td>67.7</td>
+    <td>68.22</td>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>VizWiz</td>
+    <td>52.5</td>
+    <td>55.18</td>
+  </tr>
+  <tr>
+    <td>Image only</td>
+    <td>VQA v2</td>
+    <td>78.3</td>
+    <td>79.25</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Video</td>
+    <td>MSVD-QA</td>
+    <td>69.7</td>
+    <td>59.17</td>
+  </tr>
+</table>
+
+</div>
+
+This successful replication strengthens the validity of the original findings and provides a solid foundation for our further investigation into the model's ability to capture detailed information in complex video frames.
 
 
 ## Expected Limitations
