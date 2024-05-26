@@ -3,7 +3,7 @@
 #SBATCH --gpus=2
 #SBATCH --nodes=1
 #SBATCH --ntasks=2
-#SBATCH --gres=gpumem:90g
+#SBATCH --gres=gpumem:80g
 #SBATCH --cpus-per-task=18
 #SBATCH --time=03:00:00
 #SBATCH --job-name=InstallEnvironment

@@ -3,7 +3,7 @@
 #SBATCH --gpus=4
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --gres=gpumem:90g
+#SBATCH --gres=gpumem:80g
 #SBATCH --cpus-per-task=18
 #SBATCH --time=04:00:00
 #SBATCH --job-name=ft-fps6-animals-grounding-from-scratch
