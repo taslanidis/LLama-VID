@@ -139,7 +139,7 @@ In this work we focus on the grounding sub-part of animals dataset, so the cores
 Following that, `inference_data_grounding_v2.ipynb` should be run for the development of inference dataset and `create_inputs_grounding_v2.ipynb` for the finutuning data. Within this notebooks the required split for train and test data is already considered.
 ### Finetuning animal dataset
 
-Once the data is developed, for finetuning the reader should run `src/scripts/train/stage_instruction_tuning_grounding_animals_fps1.job` and `src/scripts/train/stage_instruction_tuning_grounding_animals_fps6.job` to perform instruction tuning for fps1 and fps6 respectively.
+Once the data is developed, for finetuning the reader should run `src/scripts/video/train/stage_instruction_tuning_grounding_animals_fps1.job` and `src/scripts/video/train/stage_instruction_tuning_grounding_animals_fps6.job` to perform instruction tuning for fps1 and fps6 respectively.
 ### Inference animal dataset
 
 Finally, to run inference, the reader should run the `src/scripts/eval/ft_animal_ground_s1.job` to test the results of the finetuned model and `zero_shot_animal_ground_s2.job`
