@@ -5,9 +5,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=1
-#SBATCH --job-name=zs-full-eval-animal-grounding-llama3
-#SBATCH --time=00:59:55
-#SBATCH --output=./out/zs-eval-animal_grounding_s2-full-%A.out
+#SBATCH --job-name=zs-full-eval-animal-grounding-llama3-deterministic
+#SBATCH --time=00:30:00
+#SBATCH --output=./out/zs-eval-animal_grounding_s2-full-deterministic-%A.out
 
 set -e
 
@@ -22,10 +22,10 @@ CHUNKS=8 #num of gpus used during inference
 
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
-python llamavid/eval/eval_animal_llama.py \
+python llamavid/eval/eval_animal_llama_deterministic.py \
     --pred_path ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT \
-    --output_dir ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT/results \
-    --output_json ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT/results.json \
+    --output_dir ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT/results_determistic \
+    --output_json ./work_dirs/animal_kingdom/grounding_full_zs/$CKPT/results_determistic.json \
     --num_chunks $CHUNKS \
     --num_tasks 2 \
 

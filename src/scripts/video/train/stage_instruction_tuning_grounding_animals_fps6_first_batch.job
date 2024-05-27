@@ -5,9 +5,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=4
-#SBATCH --job-name=tokens256-instruction-tuning-ucf-scratch
-#SBATCH --time=00:55:00
-#SBATCH --output=./out/small-fps1-tokens-256-instruction-tuning-ucf-scratch-%A.out
+#SBATCH --job-name=ft-fps6-animals-grounding-from-scratch-first-batch
+#SBATCH --time=00:59:55
+#SBATCH --output=./out/ft-fps6-animals-grounding-scratch-first-batch-%A.out
 
 set -e
 
@@ -23,7 +23,7 @@ deepspeed llamavid/train/train_mem.py \
     --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path ./work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
     --version imgsp_v1 \
-    --data_path ./data/LLaMA-VID-Finetune/ucf-crime/crime_detection_small_qa_ft.json\
+    --data_path ./data/LLaMA-VID-Finetune/animal-grounding/train_grounding_animals_first_batch.json \
     --image_folder ./data/LLaMA-VID-Finetune \
     --video_folder ./data/LLaMA-VID-Finetune \
     --vision_tower ./model_zoo/LAVIS/eva_vit_g.pth \
@@ -34,13 +34,13 @@ deepspeed llamavid/train/train_mem.py \
     --mm_use_im_patch_token False \
     --image_aspect_ratio pad \
     --group_by_modality_length False \
-    --video_fps 1 \
-    --video_token 256 \
+    --video_fps 6 \
+    --video_token 2 \
     --bert_type "qformer_pretrain_freeze_all" \
     --num_query 32 \
     --compress_type "mean" \
     --bf16 True \
-    --output_dir ./work_dirs/llama-vid-7b-full-224-video-fps-1-tokens-256-ft-ucf \
+    --output_dir ./work_dirs/finetuning-vid-grounding-animals-fps-6-first-batch \
     --num_train_epochs 1 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \

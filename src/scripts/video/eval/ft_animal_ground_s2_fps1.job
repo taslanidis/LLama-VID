@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#SBATCH --partition=gpu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=18
+#SBATCH --gpus=1
+#SBATCH --job-name=ft_eval_pred_fps_1_animal_grounding_llama3
+#SBATCH --time=00:20:00
+#SBATCH --output=./out/ft-eval-animal-grounding-s2-fps1-v2-full-deterministic-%A.out
+
+set -e
+
+module purge
+module load 2022
+module load Miniconda3/4.12.0
+module load CUDA/11.7.0
+
+source activate llama_3_instruct
+
+CHUNKS=4 #num of gpus used during inference
+
+CKPT="finetuning-vid-grounding-animals-fps-1"
+
+python llamavid/eval/eval_animal_llama_deterministic.py \
+    --pred_path ./work_dirs/animal_kingdom/grounding_full_ft_fps1_v2/$CKPT \
+    --output_dir ./work_dirs/animal_kingdom/grounding_full_ft_fps1_v2/$CKPT/results_determistic \
+    --output_json ./work_dirs/animal_kingdom/grounding_full_ft_fps1_v2/$CKPT/results_determistic.json \
+    --num_chunks $CHUNKS \
+    --num_tasks 2 \
+
+

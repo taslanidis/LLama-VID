@@ -43,16 +43,20 @@ def parse_args():
     parser.add_argument("--num-chunks", type=int, default=1)
     parser.add_argument("--chunk-idx", type=int, default=0)
     parser.add_argument("--model-max-length", type=int, default=None)
+    parser.add_argument("--video_fps", type=int, default=1)
 
     return parser.parse_args()
 
 
-def load_video(video_path):
+def load_video(video_path: str, output_fps: int = 1):
     vr = VideoReader(video_path, ctx=cpu(0))
     total_frame_num = len(vr)
     fps = round(vr.get_avg_fps())
-    frame_idx = [i for i in range(0, len(vr), fps)]
+    # print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
+    frame_increment: int = fps // output_fps if fps >= output_fps else fps
+    frame_idx = [i for i in range(0, len(vr), frame_increment)]
     spare_frames = vr.get_batch(frame_idx).asnumpy()
+    # print(f"Output video frames: {len(spare_frames)}, fps: {(fps * output_fps) // fps}")
     return spare_frames
 
 
@@ -112,7 +116,7 @@ def run_inference(args):
 
         # Check if the video exists
         if os.path.exists(video_path):
-            video = load_video(video_path)
+            video = load_video(video_path, args.video_fps)
             video = image_processor.preprocess(video, return_tensors='pt')['pixel_values'].half().cuda()
             video = [video]
 
@@ -137,6 +141,8 @@ def run_inference(args):
         stopping_criteria = KeywordsStoppingCriteria(keywords, tokenizer, input_ids)
 
         cur_prompt = question
+        # print("------------------------------------------ question:", cur_prompt)
+
         with torch.inference_mode():
             model.update_prompt([[cur_prompt]])
             output_ids = model.generate(
@@ -148,15 +154,19 @@ def run_inference(args):
                 use_cache=True,
                 stopping_criteria=[stopping_criteria])
 
+
         input_token_len = input_ids.shape[1]
         n_diff_input_output = (input_ids != output_ids[:, :input_token_len]).sum().item()
         if n_diff_input_output > 0:
             print(f'[Warning] {n_diff_input_output} output_ids are not the same as the input_ids')
         outputs = tokenizer.batch_decode(output_ids[:, input_token_len:], skip_special_tokens=True)[0]
+        # print("------------------------------------------ initial output:", outputs)
+
         outputs = outputs.strip()
         if outputs.endswith(stop_str):
             outputs = outputs[:-len(stop_str)]
         outputs = outputs.strip()
+        # print("------------------------------------------ final output:", outputs)
 
         sample_set['pred'] = outputs
         ans_file.write(json.dumps(sample_set) + "\n")

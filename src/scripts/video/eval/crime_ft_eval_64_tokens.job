@@ -5,9 +5,9 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=1
-#SBATCH --job-name=crime-activity-preds
+#SBATCH --job-name=crime-ft-tokens256-activity-preds
 #SBATCH --time=00:55:00
-#SBATCH --output=crime-activity-preds-%A.out
+#SBATCH --output=crime-ft-tokens256-activity-preds-%A.out
 
 set -e
 
@@ -27,7 +27,7 @@ IFS=',' read -ra GPULIST <<< "$gpu_list"
 
 CHUNKS=${#GPULIST[@]}
 
-CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
+CKPT="llama-vid-7b-full-224-video-fps-1-tokens-256-ft-ucf"
 
 for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python llamavid/eval/model_ucf_crime_qa.py \
@@ -36,7 +36,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     --gt_file_question ./data/LLaMA-VID-Eval/ucf-crime/test_questions.json \
     --gt_file_answers ./data/LLaMA-VID-Eval/ucf-crime/test_answers.json \
     --output_dir ./work_dirs/eval_ucf_crime/$CKPT \
-    --output_name pred_0s_fps1 \
+    --output_name pred_ft_fps1 \
     --num-chunks $CHUNKS \
     --video_fps 1 \
     --chunk-idx $IDX \

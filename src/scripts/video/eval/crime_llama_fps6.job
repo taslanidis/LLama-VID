@@ -25,9 +25,9 @@ CHUNKS=1
 CKPT="llama-vid/llama-vid-7b-full-224-video-fps-1"
 
 python llamavid/eval/eval_crime_qa_llama.py \
-    --pred_path ./work_dirs/eval_ucf_crime/$CKPT/pred_fps6.json \
+    --pred_path ./work_dirs/eval_ucf_crime/$CKPT/pred_0s_fps6.json \
     --output_dir ./work_dirs/eval_ucf_crime/$CKPT/results \
-    --output_json ./work_dirs/eval_ucf_crime/$CKPT/results_fps6.json \
+    --output_json ./work_dirs/eval_ucf_crime/$CKPT/results_0s_fps6.json \
     --num_chunks $CHUNKS \
     --num_tasks 1 \
 

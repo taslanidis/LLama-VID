@@ -1,0 +1,42 @@
+============================================================================================== 
+Warning! Mixing Conda and module environments may lead to corruption of the
+user environment. 
+We do not recommend users mixing those two environments unless absolutely
+necessary. Note that 
+SURF does not provide any support for Conda environment.
+For more information, please refer to our software policy page:
+https://servicedesk.surf.nl/wiki/display/WIKI/Software+policy+Snellius#SoftwarepolicySnellius-UseofAnacondaandMinicondaenvironmentsonSnellius 
+
+Remember that many packages have already been installed on the system and can
+be loaded using 
+the 'module load <package__name>' command. If you are uncertain if a package is
+already available 
+on the system, please use 'module avail' or 'module spider' to search for it.
+============================================================================================== 
+Copy the following line in a new terminal to create a secure SSH tunnel between your computer and Ibex compute node.
+ssh -L localhost:10121:gcn57.local.snellius.surf.nl:10121 scur0405@snellius.surf.nl
+[2024-05-26T13:01:04.238Z] info  code-server 4.23.1 9a28bc29dbddb6886dfe03dc1c31320249a901ce
+[2024-05-26T13:01:04.240Z] info  Using user-data-dir /home/scur0405/.local/share/code-server
+[2024-05-26T13:01:04.257Z] info  Using config file /home/scur0405/.config/code-server/config_interactive.yaml
+[2024-05-26T13:01:04.257Z] info  HTTP server listening on http://172.18.62.57:10121/
+[2024-05-26T13:01:04.257Z] info    - Authentication is enabled
+[2024-05-26T13:01:04.257Z] info      - Using password from /home/scur0405/.config/code-server/config_interactive.yaml
+[2024-05-26T13:01:04.257Z] info    - Not serving HTTPS
+[2024-05-26T13:01:04.257Z] info  Session server listening on /home/scur0405/.local/share/code-server/code-server-ipc.sock
+slurmstepd: error: *** JOB 6390423 ON gcn57 CANCELLED AT 2024-05-26T15:06:31 ***
+slurmstepd: error: container_p_join: setns failed for /slurm/6390423/.ns: Invalid argument
+slurmstepd: error: container_g_join(6390423): Invalid argument
+
+JOB STATISTICS
+==============
+Job ID: 6390423
+Cluster: snellius
+User/Group: scur0405/scur0405
+State: CANCELLED (exit code 0)
+Nodes: 1
+Cores per node: 72
+CPU Utilized: 00:00:01
+CPU Efficiency: 0.00% of 06:46:48 core-walltime
+Job Wall-clock time: 00:05:39
+Memory Utilized: 73.25 MB
+Memory Efficiency: 0.01% of 480.00 GB
