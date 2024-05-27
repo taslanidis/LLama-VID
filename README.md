@@ -130,5 +130,26 @@ conda install -c conda-forge code-server
 ## How to reproduce the author's findings
 The authors have used numerous benchmarks to have their findings. Precise steps have been given in the [evaluation](https://github.com/dvlab-research/LLaMA-VID?tab=readme-ov-file#evaluation) part of their repository. One has to execute the bash script job from `scripts/{image_only/video}/eval/{benchmark}.sh` by selecting either image_only or video which the benchmark is located and replace the name of the benchmark in the {benchmark} location.
 
-<!-- ## How to reproduce the extension
-THIS NEEDS INPUT!!! -->
+## How to reproduce the extension
+To reproduce the extension the reader has to start with requesting access for the respective datasets. 
+
+## Animal dataset
+For the animal dataset the data can be requested from here: https://sutdcv.github.io/Animal-Kingdom/ as described in down
+In this work we focus on the grounding sub-part of animals dataset, so the coresponding data should be placed in 'LLaMA-VID/data/LLaMA-VID-Finetune/animal-grounding'.
+Following that, 'inference_data_grounding_v2.ipynb' should be run for the development of inference dataset and 'create_inputs_grounding_v2.ipynb' for the finutuning data. Within this notebooks the required split for train and test data is already considered.
+### Finetuning animal dataset
+
+Once the data is developed, for finetuning the reader should run 'src/scripts/train/stage_instruction_tuning_grounding_animals_fps1.job' and 'src/scripts/train/stage_instruction_tuning_grounding_animals_fps6.job' to perform instruction tuning for fps1 and fps6 respectively.
+### Inference animal dataset
+
+Finally, to run inference, the reader should run the 'src/scripts/eval/ft_animal_ground_s1.job' to test the results of the finetuned model and 'zero_shot_animal_ground_s2.job'
+## Ucf-crime dataset
+For the Ucf can be requested here: https://paperswithcode.com/dataset/ucf-crime
+### Inference for UCF crime
+
+We created a new inference and evaluation file for this dataset and our experiments. You can run those files through these automated job scripts:
+In LLaMa-VID/scripts/video/eval there are all the scripts crime_eval_.job to run the UCF zero shot crime inference, and crime_ft_eval_.job for finetuned inference, as well as crime_llama*.job for the llama evaluator.
+
+### Finetune UCF crime
+
+In LLaMa-VID/scripts/video/train we have the jobs like stage_instruction_tuning_ucf_crime_small_fps*.job to use deepspeed in order to fine tune the model on the UCF train set.
