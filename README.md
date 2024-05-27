@@ -50,10 +50,6 @@ repo
 |   |   |   |   |-- ucf-crime  
 |   |   |   |   |-- gqa
 |   |   |   |   |-- ... (more folders)
-|
-|-- demos
-|   |-- test_1.ipynb
-|   |-- experiment_2.ipynb
 |-- pyproject.toml
 |-- requirements_llama_three.txt
 |-- install_llama_environment.job
