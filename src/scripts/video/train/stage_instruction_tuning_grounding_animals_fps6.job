@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=4
 #SBATCH --job-name=ft-fps6-animals-grounding-from-scratch
-#SBATCH --time=00:59:59
-#SBATCH --output=./out/ft-fps6-animals-grounding-scratch-%A.out
+#SBATCH --time=01:50:00
+#SBATCH --output=./out/ft-v2-fps6-animals-grounding-scratch-%A.out
 
 set -e
 
@@ -40,7 +40,7 @@ deepspeed llamavid/train/train_mem.py \
     --num_query 32 \
     --compress_type "mean" \
     --bf16 True \
-    --output_dir ./work_dirs/finetuning-vid-grounding-animals-fps-6 \
+    --output_dir ./work_dirs/llama-vid-7b-full-224-video-finetuning-animal-grounding-fps6 \
     --num_train_epochs 1 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \

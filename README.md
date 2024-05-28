@@ -50,10 +50,12 @@ repo
 |   |   |   |   |-- ucf-crime  
 |   |   |   |   |-- gqa
 |   |   |   |   |-- ... (more folders)
-|-- pyproject.toml
-|-- requirements_llama_three.txt
-|-- install_llama_environment.job
-|-- install_environment.job
+|   |--out 
+|   |     | (output files of job scripts) 
+|   |-- pyproject.toml
+|   |-- requirements_llama_three.txt
+|   |-- install_llama_environment.job
+|   |-- install_environment.job
 ```
 
 
@@ -76,9 +78,9 @@ More details for some files/folders are the following:
         - **LLaMA-VID-Eval**:       The data for evaluation purposes
         - **LLaMA-VID-Pretrain**:   The data for pre-train purposes
         - **LLaMA-VID-Finetune**:   The data for finetuning
-- **requirements_llama_three.txt**:
-- **install_llama_environment.job**: Executable to install the conda environment in a server
-- **install_environment.job**: Executable to install the conda environment in a server
+    - **requirements_llama_three.txt**:
+    - **install_llama_environment.job**: Executable to install the conda environment in a server
+    - **install_environment.job**: Executable to install the conda environment in a server
 
 
 ## Download Data
@@ -105,10 +107,12 @@ The weights of the finetuned extension models can be found in the [sharepoint](h
 ## Conda Environments
 In this project, we had to create two different conda environments. Those are ***llamavid*** and ***llama_3_instruct***. This necessity initially arose to reproduce the performance of LLaMA_VID in the zero-shot video QA (Question Answering) benchmarks MSVD-QA and MSRVTT-QA. The authors utilize 'gpt-3.5-turbo' capabilities in text generation to evaluate the predictions made by the LLaMA-VID model in these Visual Question-answering tasks. Given an annotated pair of a question and a single-word answer related to the video, we need to evaluate if the prediction made by the proposed model agrees with the annotated single-word answer used as a label. Since 'gpt-3.5-turbo' is a closed model and we did not have access to an API key, we substituted it with [Meta-Llama-3-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3-8B-Instruct), one of the newest open-source LLMs released by Meta that has text-generation capabilities. The caveat is that the latter LLM depends on a newer transformer version that is not compatible with the transformer version used in [LLAVA](https://arxiv.org/pdf/2304.08485), a backbone that LLaMA-VID builds upon, which justifies our decision to use two different environments. So whenever we need to evaluate the correctness of the LLaMA-VID model predictions in QA tasks, we use the *llama_3_instruct environment.
 
-Both environments have a job script for building the environments in a cluster. To install them locally, one has to follow the following commands:
+Both environments have a job script for building the environments in a cluster, which can be found under `src` named `src/install_environment.job` and `src/install_llama3_instruct_environment.job`. To install them locally, one has to follow the following commands:
 
 ### llamavid installation
 ```
+cd src
+
 conda create -n llamavid python=3.10 -y
 source activate llamavid
 
@@ -120,6 +124,11 @@ pip install flash-attn==2.1.2.post3 --no-build-isolation
 ```
 ### llama_3_instruction installation
 ```
+cd src
+
+conda create -n llama_3_instruction python=3.10 -y
+source activate llama_3_instruction
+
 pip install --upgrade pip
 pip install -r requirements_llama_three.txt
 pip install openpyxl

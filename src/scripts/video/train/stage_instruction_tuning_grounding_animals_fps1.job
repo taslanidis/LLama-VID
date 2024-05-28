@@ -5,9 +5,9 @@
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=4
-#SBATCH --job-name=ft-fps1-animals-grounding-from-scratch
+#SBATCH --job-name=ft-v2-fps1-animals-grounding-from-scratch
 #SBATCH --time=00:59:59
-#SBATCH --output=./out/ft-fps1-animals-grounding-scratch-%A.out
+#SBATCH --output=./out/ft-v2-fps1-animals-grounding-scratch-%A.out
 
 set -e
 
@@ -23,7 +23,7 @@ deepspeed llamavid/train/train_mem.py \
     --deepspeed ./scripts/zero2_offload.json \
     --model_name_or_path ./work_dirs/llama-vid/llama-vid-7b-full-224-video-fps-1 \
     --version imgsp_v1 \
-    --data_path ./data/LLaMA-VID-Finetune/animal-grounding/train_grounding_animals.json\
+    --data_path ./data/LLaMA-VID-Finetune/animal-grounding/train_grounding_animals.json \
     --image_folder ./data/LLaMA-VID-Finetune \
     --video_folder ./data/LLaMA-VID-Finetune \
     --vision_tower ./model_zoo/LAVIS/eva_vit_g.pth \
@@ -40,7 +40,7 @@ deepspeed llamavid/train/train_mem.py \
     --num_query 32 \
     --compress_type "mean" \
     --bf16 True \
-    --output_dir ./work_dirs/finetuning-vid-grounding-animals-fps-1 \
+    --output_dir ./work_dirs/llama-vid-7b-full-224-video-finetuning-animal-grounding-fps1 \
     --num_train_epochs 1 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \

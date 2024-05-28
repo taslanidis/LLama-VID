@@ -53,7 +53,7 @@ def load_video(video_path: str, output_fps: int = 1):
     total_frame_num = len(vr)
     fps = round(vr.get_avg_fps())
     # print(f"Current Video Frames: {total_frame_num} and FPS: {fps} ---- {video_path.split('/')[-1]}")
-    frame_increment: int = fps // output_fps if fps >= output_fps else fps
+    frame_increment = fps // output_fps if fps >= output_fps else fps
     frame_idx = [i for i in range(0, len(vr), frame_increment)]
     spare_frames = vr.get_batch(frame_idx).asnumpy()
     # print(f"Output video frames: {len(spare_frames)}, fps: {(fps * output_fps) // fps}")

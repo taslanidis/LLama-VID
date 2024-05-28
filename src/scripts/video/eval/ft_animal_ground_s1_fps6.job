@@ -5,9 +5,9 @@
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=18
 #SBATCH --gpus=4
-#SBATCH --job-name=fps6_ft_pred_animal_grounding
-#SBATCH --time=00:25:00
-#SBATCH --output=./out/ft_pred_fps_6_animal_grounding_s1-%A.out
+#SBATCH --job-name=ft-pred-fps-6-animal-grounding
+#SBATCH --time=00:59:55
+#SBATCH --output=./out/ft_v2_pred_fps_6_animal_grounding_s1-%A.out
 
 set -e
 

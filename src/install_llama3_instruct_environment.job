@@ -5,7 +5,7 @@
 #SBATCH --job-name=InstallLLaMaEnvironment
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=18
-#SBATCH --time=00:55:00
+#SBATCH --time=00:30:00
 #SBATCH --output=install_llama_env-%A.out
 
 #exit if an error occurs
