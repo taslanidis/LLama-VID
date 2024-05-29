@@ -34,9 +34,10 @@ The LLaMA-VID framework consists of the steps illustrated in [Figure 1](#Figure_
 
 ### Vision and Text Encoder:
 To prepare the model for achieving cross-modality alignment (See Section [modality alignment](https://github.com/taslanidis/LLama-VID/blob/main/blogpost.md#modality-alignmentl)), the frames of the video need to be encoded. The initial size of the frames is $\boldsymbol V_t \in \mathbb{R}^{H \times W \times 3}$. Then, a transformer-based visual encoder produces the visual embedding $\boldsymbol X_t \in \mathbb{R}^{N \times C}$ where the dimensions $N$ and $C$ denote the number of image patches and embedding channels, respectively. Finally, the visual embedding $\boldsymbol X_t$ is processed by the text decoder (either a QFormer or a BERT model) in combination with the user query to generate the text-guided query $Q_t \in \mathbb{R}^{M \times C}$. Note that $M$ denotes the number of queries.
-​​### Token generation:
+​​
+### Token generation:
 The generation process of context and content tokens is intrinsic to the LLaMA-VID success in long-video understanding. These tokens form the input to the LLM at the end of the inference pipeline. The visual embedding produced by the visual encoder $\boldsymbol X_t$ and the text query $\boldsymbol Q_t$ are used to generate the tokens. At first, the context attention mechanism in the LLaMA-VID pipeline is used to aggregate text-related visual features into the context token $\boldsymbol E_t$.
-$$ \boldsymbol{E}_t = \text{Mean}(\text{Softmax}(\boldsymbol{Q}_t \times \boldsymbol{X}_t^T) \times \boldsymbol{X}_t) $$
+$\boldsymbol{E}_t = \text{Mean}(\text{Softmax}(\boldsymbol{Q}_t \times \boldsymbol{X}_t^T) \times \boldsymbol{X}_t)$
 This approach successfully captures the most crucial visual cues in the context token with the help of the text query. Secondly, the content token reaches its final state by performing adaptive pooling on the visual embedding $\boldsymbol X_t$. This adaptive pooling allows the content token $\boldsymbol E_t^V \in \mathbb{R}^{n \times C} \text{where } n \in [1, N]$ (where $N$ is the number of image patches from the vision encoder) to be of varying sizes, depending on the video length.
 Subsequently, a linear projector module transforms the $\boldsymbol E_t^T$ and $\boldsymbol E_t^V$ to align with the LLM latent space. This entire video sequence is translated into tokens that the LLMs can interpret to generate an answer to the user query.
 
