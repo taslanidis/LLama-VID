@@ -504,6 +504,21 @@ After finetuning, the LLaMA-VID still generates inaccurate predictions for a vid
 **Table 5: Error analysis on Animal Dataset predictions**
 </div>
 
+#### Training Curves
+[Figure 7](#Figure_7) illustrate the training curve during finetuning the LLaMA-VID model on the two new dataset with specialy designed instruction-tuning pairs as in [[16](#16), [4](#4)].
+
+<a id="Figure_7"></a>
+
+<table align="center">
+  <tr align="center">
+      <td><img src="figures/wandb.png" width=800></td>
+  </tr>
+  <tr align="center">
+    <td colspan=2><b>Figure 7:</b> Accuracies per crime per method.</td>
+  </tr>
+</table>
+
+
 ## Further Research Questions
 Since the evaluation of the prediction of the LLaMA-VID is based on an LLM expert and its next-generation capabilities for the Video QA task, as described in Section [Results of animal dataset](#Animals_Dataset), the task prompts used during inference influence the relevance prediction. In future work, we would like to experiment with different task prompts and also use recent API-based closed models, such as the most recent [GPT-4o](https://platform.openai.com/docs/models/gpt-4o).
 
