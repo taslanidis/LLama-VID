@@ -437,26 +437,26 @@ Similarly, in [Table 4](#Table_4), we demonstrate the effect of fine-tuning for 
  </tr>
  <tr>
    <td>Zero-Shot \w FPS-1</td>
-   <td>18.10%</td>
-   <td>1.34</td>
+   <td>18.04%</td>
+   <td>1.32</td>
   
  </tr>
  <tr>
    <td>Zero-Shot \w FPS-6</td>
-   <td>-</td>
-   <td>-</td>
+   <td>19.50%</td>
+   <td>1.34</td>
   
  </tr>
  <tr>
    <td>Finetuned \w FPS-1</td>
-   <td>36.08%</td>
-   <td>2.73</td>
+   <td>34.06%</td>
+   <td>2.65</td>
   
  </tr>
  <tr>
    <td>Finetuned \w FPS-6</td>
-   <td>-</td>
-   <td>-</td>
+   <td>34,89%</td>
+   <td>2.66</td>
   
  </tr>
  </table>
