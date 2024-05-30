@@ -505,7 +505,7 @@ After finetuning, the LLaMA-VID still generates inaccurate predictions for a vid
 </div>
 
 #### Training Curves
-[Figure 7](#Figure_7) illustrate the training curve during finetuning the LLaMA-VID model on the two new dataset with specialy designed instruction-tuning pairs as in [[16](#16), [4](#4)].
+[Figure 7](#Figure_7) illustrates the training curve during finetuning the LLaMA-VID model on the two new dataset with specialy designed instruction tuning pairs as in [[16](#16), [4](#4)].
 
 <a id="Figure_7"></a>
 
