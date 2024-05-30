@@ -514,7 +514,7 @@ After finetuning, the LLaMA-VID still generates inaccurate predictions for a vid
       <td><img src="figures/wandb.png" width=800></td>
   </tr>
   <tr align="center">
-    <td colspan=2><b>Figure 7:</b> Accuracies per crime per method.</td>
+    <td colspan=2><b>Figure 7:</b> Training Curves.</td>
   </tr>
 </table>
 
